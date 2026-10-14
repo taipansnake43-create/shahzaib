@@ -82,7 +82,16 @@
       "saved_at": 1791960047.2469835
     }
   },
-  "dl": {},
+  "dl": {
+    "lstm": {
+      "acc": 0.6006915857072287,
+      "temp": 1.3122448979591839,
+      "size_kb": 3190.6,
+      "saved_to": "storage",
+      "model_version": "v9.5_no_leakage_honest_calibration",
+      "saved_at": 1791960750.848416
+    }
+  },
   "nn": {},
-  "_saved_at": "2026-10-14T06:41:11.799965Z"
+  "_saved_at": "2026-10-14T06:52:30.848447Z"
 }
