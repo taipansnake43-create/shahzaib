@@ -54,12 +54,13 @@
       "saved_at": 1791960029.997324
     },
     "xgb": {
-      "wf": 0.5422904560228504,
-      "needs_sc": false,
+      "wf_acc": 0.5423,
+      "brier": 0.23786624618165322,
+      "logloss": 0.6686390319144654,
       "size_kb": 717.1,
       "saved_to": "storage",
       "model_version": "v9.5_no_leakage_honest_calibration",
-      "saved_at": 1791959973.0290222
+      "saved_at": 1791960054.3230348
     },
     "lgb": {
       "wf_acc": 0.5224,
@@ -82,5 +83,5 @@
   },
   "dl": {},
   "nn": {},
-  "_saved_at": "2026-10-14T06:40:47.247007Z"
+  "_saved_at": "2026-10-14T06:40:54.323107Z"
 }
