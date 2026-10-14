@@ -1,0 +1,181 @@
+{
+  "ts": "2026-10-14T05:50:57.269376Z",
+  "symbol": "BTC-USD",
+  "tf_label": "1h",
+  "price": 83519.46,
+  "direction": "LONG",
+  "status": "BLOCKED_TOO_LOW",
+  "warnings": [
+    "RR 4.95 > 4.50 (may be unrealistic)",
+    "setup score 46.7 < 58.0",
+    "committee probability 40.6% < 55.5%",
+    "analog pattern win-rate 39.5% < 58.0%",
+    "feature drift extreme: PSI mean=1.338, max=27.631",
+    "model agreement 11.1% < 53.0%",
+    "all-model majority weak 55.0% < 58.0%",
+    "guard/daily_loss_killswitch: equity not reported \u2014 fail-closed",
+    "guard/freshness: Stale data: 3003s old > 120s",
+    "guard/confidence: Confidence 46.7 < 62 \u2013 BLOCKED",
+    "entry precision score 19.1 < 61.0"
+  ],
+  "setup_score": 46.7,
+  "entry_precision_score": 19.1,
+  "probability": 0.4058,
+  "analog": {
+    "available": true,
+    "k": 200,
+    "reference_rows": 81225,
+    "rows_after_filters": 33718,
+    "rows_after_time_filter": 81225,
+    "rows_same_regime": 33718,
+    "reference_features": 82,
+    "analog_win_rate": 0.3953,
+    "analog_win_rate_unweighted": 0.38,
+    "nearest_mean_distance": 0.5001,
+    "nearest_min_distance": 0.3457,
+    "metric": "euclidean",
+    "current_regime": "RANGING",
+    "strict_regime": true,
+    "recency_weighted": true,
+    "recency_half_life_days": 365.0,
+    "time_cutoff_ns": 1791781200000000000
+  },
+  "drift": {
+    "available": true,
+    "level": "extreme",
+    "reference_rows": 81225,
+    "current_rows": 500,
+    "n_features": 82,
+    "psi_mean": 1.33774,
+    "psi_max": 27.63102,
+    "features_drifted": 35,
+    "features_extreme": 24,
+    "thresholds": {
+      "watch": 0.1,
+      "drift": 0.25,
+      "extreme": 0.5
+    },
+    "top_features": [
+      {
+        "feature": "nlp",
+        "psi": 27.63102,
+        "mean_shift_z": 83333335.8169,
+        "ref_mean": 0.0,
+        "cur_mean": -0.08333,
+        "ref_std": 0.0,
+        "cur_std": 0.0
+      },
+      {
+        "feature": "vwap_dist",
+        "psi": 12.4344,
+        "mean_shift_z": 0.8006,
+        "ref_mean": 0.23039,
+        "cur_mean": -0.33123,
+        "ref_std": 0.70153,
+        "cur_std": 0.00858
+      },
+      {
+        "feature": "price_fracdiff",
+        "psi": 8.67274,
+        "mean_shift_z": 1.4945,
+        "ref_mean": 0.27786,
+        "cur_mean": 1.3881,
+        "ref_std": 0.74288,
+        "cur_std": 0.2264
+      },
+      {
+        "feature": "hasbrouck_impact",
+        "psi": 8.55091,
+        "mean_shift_z": 0.1947,
+        "ref_mean": 2.33418,
+        "cur_mean": -0.45358,
+        "ref_std": 14.32053,
+        "cur_std": 0.06437
+      },
+      {
+        "feature": "funding_rate",
+        "psi": 6.10746,
+        "mean_shift_z": 0.2843,
+        "ref_mean": 0.38115,
+        "cur_mean": -0.14847,
+        "ref_std": 1.86274,
+        "cur_std": 0.24831
+      },
+      {
+        "feature": "funding_ann",
+        "psi": 6.10746,
+        "mean_shift_z": 0.2843,
+        "ref_mean": 0.38115,
+        "cur_mean": -0.14847,
+        "ref_std": 1.86274,
+        "cur_std": 0.24831
+      },
+      {
+        "feature": "atr_pct",
+        "psi": 5.10347,
+        "mean_shift_z": 0.684,
+        "ref_mean": 0.28369,
+        "cur_mean": -0.52437,
+        "ref_std": 1.18142,
+        "cur_std": 0.29455
+      },
+      {
+        "feature": "fear_greed",
+        "psi": 3.7963,
+        "mean_shift_z": 1.6196,
+        "ref_mean": 0.00216,
+        "cur_mean": 0.18492,
+        "ref_std": 0.11284,
+        "cur_std": 0.05002
+      },
+      {
+        "feature": "gap_open",
+        "psi": 3.27035,
+        "mean_shift_z": 0.0012,
+        "ref_mean": 1.89765,
+        "cur_mean": 0.00026,
+        "ref_std": 1543.1427,
+        "cur_std": 2.03394
+      },
+      {
+        "feature": "garch_vol_proxy",
+        "psi": 2.99103,
+        "mean_shift_z": 0.5281,
+        "ref_mean": 0.31385,
+        "cur_mean": -0.41649,
+        "ref_std": 1.38285,
+        "cur_std": 0.30873
+      },
+      {
+        "feature": "bb_width",
+        "psi": 2.70236,
+        "mean_shift_z": 0.4923,
+        "ref_mean": 0.33357,
+        "cur_mean": -0.29643,
+        "ref_std": 1.27983,
+        "cur_std": 0.30124
+      },
+      {
+        "feature": "amihud_illiquidity",
+        "psi": 2.62187,
+        "mean_shift_z": 0.0886,
+        "ref_mean": 15.58543,
+        "cur_mean": -0.09796,
+        "ref_std": 176.9738,
+        "cur_std": 0.16845
+      }
+    ]
+  },
+  "similarity": {
+    "available": true,
+    "similarity_score": 0.5821,
+    "winner_distance": 0.7179,
+    "loser_distance": 0.7531,
+    "winner_vs_loser_advantage": 0.0352,
+    "closer_to": "WINNERS",
+    "n_features": 82,
+    "n_win_profile": 30147,
+    "n_loss_profile": 51078
+  },
+  "_saved_at": "2026-10-14T05:51:06.886490Z"
+}
