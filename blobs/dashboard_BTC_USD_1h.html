@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>⚡ Crypto Suite v23 — Hedge Fund Dashboard</title>
+<script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+<style>
+  :root{
+    --bg:#0a0e1a; --panel:#131a2e; --panel2:#1a233f; --panel3:#202c4f;
+    --ink:#e8ecf5; --muted:#7e8aa6; --accent:#3ec1d3;
+    --green:#52d273; --red:#ff5e7a; --gold:#f5b14d;
+    --border:#23304f; --glow:rgba(62,193,211,.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:radial-gradient(ellipse at top,#0d1424,#0a0e1a 70%);
+    color:var(--ink);font:14px/1.55 -apple-system,BlinkMacSystemFont,
+    "Segoe UI",Roboto,system-ui,sans-serif;
+    min-height:100vh;padding:20px;
+  }
+
+  /* Header */
+  header{
+    background:linear-gradient(135deg,#162043,#0a1020 60%);
+    border:1px solid var(--border);border-radius:16px;
+    padding:20px 28px;margin-bottom:20px;
+    display:flex;justify-content:space-between;align-items:center;
+    flex-wrap:wrap;gap:18px;
+    box-shadow:0 4px 24px rgba(0,0,0,.4), 0 0 0 1px var(--glow) inset;
+  }
+  .brand{display:flex;align-items:center;gap:14px}
+  .brand-icon{font-size:34px;filter:drop-shadow(0 0 12px var(--accent))}
+  h1{font-size:21px;font-weight:800;letter-spacing:.3px}
+  .sub{color:var(--muted);font-size:12px;margin-top:3px}
+  .pill{display:flex;align-items:center;gap:8px;background:var(--panel);
+    padding:8px 14px;border-radius:8px;border:1px solid var(--border);
+    font-size:12px;color:var(--muted)}
+  .pulse{width:8px;height:8px;border-radius:50%;animation:pulse 1.5s ease-in-out infinite}
+  .pulse.green{background:var(--green)}.pulse.gold{background:var(--gold)}
+  .pulse.red{background:var(--red)}.pulse.cyan{background:var(--accent)}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+  .btn{background:var(--accent);color:#0a1020;border:none;padding:10px 18px;
+    border-radius:8px;cursor:pointer;font-weight:700;font-size:13px;
+    transition:.15s;display:inline-flex;gap:6px;align-items:center}
+  .btn:hover{background:#52d4e6;transform:translateY(-1px)}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+  .btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+  .btn.ghost:hover{background:var(--accent);color:#0a1020}
+  .btn.warn{background:var(--gold);color:#0a1020}
+  .btn.warn:hover{background:#fcc46e}
+  .btn.danger{background:var(--red);color:#fff}
+  .btn.big{padding:14px 24px;font-size:15px;border-radius:10px}
+
+  /* ════ FAST MODE HERO ════ */
+  .fastmode-hero{
+    background:linear-gradient(135deg,rgba(82,210,115,.12),rgba(62,193,211,.08));
+    border:2px solid var(--green);border-radius:16px;padding:20px 24px;
+    margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;
+    flex-wrap:wrap;gap:16px;
+    box-shadow:0 4px 24px rgba(82,210,115,.15);
+  }
+  .fastmode-hero h2{font-size:20px;font-weight:800;color:var(--green);display:flex;
+    align-items:center;gap:10px}
+  .fastmode-hero .sub{color:var(--ink);font-size:13px;margin-top:4px}
+
+  /* Setup config panel */
+  .setup-panel{
+    background:var(--panel);border:1px solid var(--border);border-radius:14px;
+    padding:18px;margin-bottom:20px;
+  }
+  .setup-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:900px){.setup-grid{grid-template-columns:1fr}}
+  .input-group{display:flex;flex-direction:column;gap:5px}
+  .input-group label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+  .input-group input,.input-group select{background:var(--panel2);border:1px solid var(--border);
+    color:var(--ink);padding:10px 14px;border-radius:8px;font-size:13px;font-family:inherit}
+  .input-group input:focus,.input-group select:focus{outline:none;border-color:var(--accent)}
+
+  /* Hero verdict + KPIs */
+  .hero{display:grid;grid-template-columns:1fr 2fr;gap:18px;margin-bottom:20px}
+  @media(max-width:900px){.hero{grid-template-columns:1fr}}
+  .verdict{border-radius:16px;padding:28px;text-align:center;border:2px solid;
+    min-height:180px;display:flex;flex-direction:column;justify-content:center;align-items:center}
+  .verdict.green{background:rgba(82,210,115,.08);border-color:var(--green);color:var(--green)}
+  .verdict.yellow{background:rgba(245,177,77,.08);border-color:var(--gold);color:var(--gold)}
+  .verdict.red{background:rgba(255,94,122,.08);border-color:var(--red);color:var(--red)}
+  .verdict.cyan{background:rgba(62,193,211,.08);border-color:var(--accent);color:var(--accent)}
+  .v-icon{font-size:48px;margin-bottom:6px}
+  .v-label{font-size:24px;font-weight:800;letter-spacing:1px}
+  .v-sub{font-size:13px;color:var(--muted);margin-top:8px;max-width:95%;line-height:1.5}
+
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px}
+  .kpi{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px 18px;
+    transition:.15s}
+  .kpi:hover{border-color:var(--accent);transform:translateY(-1px);box-shadow:0 4px 12px rgba(62,193,211,.1)}
+  .lbl{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+  .val{font-size:22px;font-weight:800}
+  .val.up{color:var(--green)}.val.down{color:var(--red)}.val.neutral{color:var(--gold)}
+
+  /* Tabs */
+  .tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;background:var(--panel);
+    padding:10px;border-radius:12px;border:1px solid var(--border);overflow-x:auto}
+  .tab-btn{background:transparent;color:var(--muted);border:none;padding:10px 18px;
+    border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;transition:.15s;white-space:nowrap}
+  .tab-btn:hover{background:var(--panel2);color:var(--ink)}
+  .tab-btn.active{background:var(--accent);color:#0a1020}
+  .panel{display:none;animation:fade .25s ease}
+  .panel.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  /* Cards */
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;
+    padding:20px;margin-bottom:16px;box-shadow:0 2px 10px rgba(0,0,0,.2)}
+  .card h3{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;
+    color:var(--accent);margin-bottom:14px;font-weight:800}
+  .card h4{font-size:15px;font-weight:700;margin-bottom:10px;color:var(--ink)}
+  .kv{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px dashed var(--border);gap:14px}
+  .kv:last-child{border-bottom:none}
+  .kv .k{color:var(--muted);font-size:13px}
+  .kv .v{color:var(--ink);font-weight:700;font-size:14px;text-align:right;font-variant-numeric:tabular-nums}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:900px){.grid-2,.grid-3{grid-template-columns:1fr}}
+
+  .badge{display:inline-block;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:800;letter-spacing:.5px}
+  .badge.green{background:rgba(82,210,115,.18);color:var(--green)}
+  .badge.red{background:rgba(255,94,122,.18);color:var(--red)}
+  .badge.gold{background:rgba(245,177,77,.18);color:var(--gold)}
+  .badge.dim{background:var(--panel2);color:var(--muted)}
+
+  table{width:100%;border-collapse:collapse;margin-top:6px}
+  th{text-align:left;color:var(--muted);font-size:11px;text-transform:uppercase;
+    letter-spacing:.5px;padding:10px 11px;border-bottom:1px solid var(--border);font-weight:700}
+  td{padding:10px 11px;border-bottom:1px solid var(--border);font-size:13px;font-variant-numeric:tabular-nums}
+  tr:last-child td{border-bottom:none}
+  tr:hover{background:rgba(255,255,255,.025)}
+  .right{text-align:right}.center{text-align:center}
+  .empty{color:var(--muted);font-style:italic;padding:18px;text-align:center}
+
+  #chart-container{height:480px;width:100%}
+
+  pre.logs{background:#06090f;border:1px solid var(--border);border-radius:8px;
+    padding:14px;font:11.5px/1.55 "SF Mono",Monaco,Consolas,monospace;
+    color:#a8b1c5;max-height:500px;overflow:auto;white-space:pre-wrap}
+
+  .toast{position:fixed;bottom:24px;right:24px;background:var(--panel);
+    border:2px solid var(--accent);padding:14px 20px;border-radius:12px;
+    box-shadow:0 8px 32px rgba(0,0,0,.7);max-width:380px;
+    transition:.3s;opacity:0;transform:translateY(20px);z-index:1000;font-weight:600}
+  .toast.show{opacity:1;transform:translateY(0)}
+  .toast.success{border-color:var(--green)}
+  .toast.error{border-color:var(--red)}
+
+  /* Setup-required overlay */
+  #setup-overlay{position:fixed;inset:0;background:rgba(10,14,26,.95);z-index:9999;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+  #setup-overlay .modal{background:var(--panel);border:2px solid var(--accent);
+    border-radius:16px;padding:32px;max-width:520px;width:100%}
+  #setup-overlay h2{font-size:22px;font-weight:800;margin-bottom:12px;color:var(--accent)}
+  #setup-overlay p{color:var(--muted);font-size:14px;margin-bottom:16px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ SETUP OVERLAY (shown until creds entered) ═══════════ -->
+<div id="setup-overlay" style="display:none">
+  <div class="modal">
+    <h2>⚡ First-time setup</h2>
+    <p>Enter your storage credentials. The dashboard reads its data from them.<br>
+       Stored locally in your browser (never sent anywhere else).</p>
+
+    <div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)">
+      <h4 style="margin-bottom:8px;color:var(--accent)">🅰️ Firebase (preferred, optional)</h4>
+      <div class="input-group" style="margin-bottom:10px">
+        <label>Firebase Project ID</label>
+        <input id="cfg-fb-proj" placeholder="e.g. gen-lang-client-0703468344">
+      </div>
+      <div class="input-group" style="margin-bottom:10px">
+        <label>Firebase Web API Key</label>
+        <input id="cfg-fb-key" type="password" placeholder="AIzaSy…">
+      </div>
+      <div class="input-group">
+        <label>Realtime Database URL (optional)</label>
+        <input id="cfg-fb-db" placeholder="https://….firebaseio.com">
+      </div>
+    </div>
+
+    <div style="margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border)">
+      <h4 style="margin-bottom:8px;color:var(--accent)">🅱️ Supabase (secondary, optional)</h4>
+      <div class="input-group" style="margin-bottom:10px">
+        <label>Supabase URL</label>
+        <input id="cfg-sb-url" placeholder="https://xxxxx.supabase.co">
+      </div>
+      <div class="input-group">
+        <label>Supabase Key (anon or service_role)</label>
+        <input id="cfg-sb-key" type="password" placeholder="eyJh… (anon key works if RLS allows)">
+      </div>
+    </div>
+
+    <div style="margin-bottom:18px">
+      <h4 style="margin-bottom:8px;color:var(--accent)">🅲 GitHub (canonical backup, recommended)</h4>
+      <div class="input-group" style="margin-bottom:10px">
+        <label>GitHub Repo (owner/repo)</label>
+        <input id="cfg-gh-repo" placeholder="e.g. zaibion/kinapp">
+      </div>
+      <div class="input-group">
+        <label>GitHub Personal Access Token</label>
+        <input id="cfg-gh-token" type="password" placeholder="ghp_…">
+      </div>
+    </div>
+
+    <button class="btn big" onclick="saveCredsAndLoad()">💾 Save &amp; Load</button>
+    <p style="margin-top:10px;color:var(--muted);font-size:12px">
+      Tip: at least one backend (Firebase OR Supabase OR GitHub) is required.
+      Credentials stay in your browser (<code>localStorage</code>) — never sent to any third party.
+    </p>
+  </div>
+</div>
+
+<!-- ═══════════ MAIN APP ═══════════ -->
+<div id="app">
+
+  <header>
+    <div class="brand">
+      <div class="brand-icon">⚡</div>
+      <div>
+        <h1>Crypto Institutional Suite v23</h1>
+        <div class="sub" id="hdr-sub">Loading…</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <div class="pill"><span id="state-dot" class="pulse cyan"></span><span id="state-text">idle</span></div>
+      <div class="pill"><span id="cache-text">checking cache…</span></div>
+      <button class="btn ghost" onclick="resetCreds()">⚙️ Settings</button>
+    </div>
+  </header>
+
+  <!-- ═══════ FAST MODE HERO ═══════ -->
+  <div class="fastmode-hero">
+    <div>
+      <h2>⚡ FAST MODE</h2>
+      <div class="sub">
+        Pick a trained pair/TF → fetch latest 4k candles → get a fresh trade verdict in ~30 seconds.
+        <span style="color:var(--green);font-weight:700">No retraining</span>.
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <select id="fast-mode-picker" class="input-group" style="background:var(--panel2);
+              border:1px solid var(--border);color:var(--ink);padding:10px 14px;
+              border-radius:8px;font-size:13px;min-width:200px"></select>
+      <button id="btn-fast-go" class="btn big" onclick="runFastMode()">⚡ Run Fast Mode</button>
+    </div>
+  </div>
+
+  <!-- ═══════ PAIR / TF SAVED ANALYSES PICKER (v25.7) ═══════ -->
+  <div class="fastmode-hero" style="background:linear-gradient(135deg,#1e1742,#0a1020 70%);
+       border:1px solid #3b2a6b">
+    <div>
+      <h2>📂 View Saved Analyses</h2>
+      <div class="sub">
+        Browse every analysis ever pushed to your storage. Pick a pair to load the
+        full 20-tab dashboard for that pair — even ones you trained months ago.
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <select id="pair-tf-picker" class="input-group" style="background:var(--panel2);
+              border:1px solid var(--border);color:var(--ink);padding:10px 14px;
+              border-radius:8px;font-size:13px;min-width:240px">
+        <option value="">— loading saved analyses…</option>
+      </select>
+      <button class="btn" onclick="loadSelectedPair()">📂 Load this pair</button>
+      <button class="btn ghost" onclick="refreshPairPicker()">🔄 Refresh list</button>
+    </div>
+  </div>
+
+  <!-- Hero verdict + KPIs -->
+  <div class="hero">
+    <div id="verdict-box" class="verdict cyan">
+      <div class="v-icon" id="v-icon">⏳</div>
+      <div class="v-label" id="v-label">WAITING</div>
+      <div class="v-sub" id="v-sub">Pick a trained pair above and run Fast Mode, or train new models from the Actions tab.</div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="lbl">Pair</div><div class="val" id="k-pair">—</div></div>
+      <div class="kpi"><div class="lbl">Price</div><div class="val up" id="k-price">—</div></div>
+      <div class="kpi"><div class="lbl">Direction</div><div class="val" id="k-dir">—</div></div>
+      <div class="kpi"><div class="lbl">Confluence</div><div class="val" id="k-conf">—</div></div>
+      <div class="kpi"><div class="lbl">Win prob</div><div class="val" id="k-wp">—</div></div>
+      <div class="kpi"><div class="lbl">Regime</div><div class="val" id="k-regime">—</div></div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" data-t="t-chart">📈 Chart</button>
+    <button class="tab-btn" data-t="t-setup">🎯 Setup</button>
+    <button class="tab-btn" data-t="t-models">🤖 Models</button>
+    <button class="tab-btn" data-t="t-dl">🧬 Deep Learning</button>
+    <button class="tab-btn" data-t="t-structure">📐 Structure (SR/OB/FVG)</button>
+    <button class="tab-btn" data-t="t-zones">🟢 Zones</button>
+    <button class="tab-btn" data-t="t-bos">⚔️ BOS/CHOCH</button>
+    <button class="tab-btn" data-t="t-fib">📏 Fibonacci</button>
+    <button class="tab-btn" data-t="t-hunting">🎯 SL Hunting</button>
+    <button class="tab-btn" data-t="t-mtf">📡 MTF + Regime</button>
+    <button class="tab-btn" data-t="t-sentiment">📰 Sentiment</button>
+    <button class="tab-btn" data-t="t-derivatives">💹 Derivatives</button>
+    <button class="tab-btn" data-t="t-forecast">🔮 Forecast</button>
+    <button class="tab-btn" data-t="t-advanced">🔬 Advanced</button>
+    <button class="tab-btn" data-t="t-backtest">📊 Backtest</button>
+    <button class="tab-btn" data-t="t-predictions">🎲 Predictions</button>
+    <button class="tab-btn" data-t="t-modeloutlook">🧠 Model Outlook</button>
+    <button class="tab-btn" data-t="t-tradesetup">💰 Trade Setup</button>
+    <button class="tab-btn" data-t="t-smallmode">🧭 Small Mode</button>
+    <button class="tab-btn" data-t="t-actions">🛠 Actions</button>
+    <button class="tab-btn" data-t="t-status">⚙️ System</button>
+  </div>
+
+  <div id="t-chart" class="panel active">
+    <div class="card">
+      <h3>📈 Price + Entry / SL / TP · <span style="color:var(--gold);font-size:13px">solid candles = real · faded candles + dashed gold line = next 20 predicted</span></h3>
+      <div id="chart-container"></div>
+      <div style="margin-top:10px;color:var(--muted);font-size:12px">
+        <span style="color:#ffd54a">━ ENTRY</span> &nbsp;
+        <span style="color:#ff5e7a">─ ─ SL</span> &nbsp;
+        <span style="color:#52d273">─ ─ TP1</span> &nbsp; · &nbsp;
+        <span style="color:#ffd54a">─ ─ Forecast (next 20 candles)</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="t-setup"       class="panel"></div>
+  <div id="t-models"      class="panel"></div>
+  <div id="t-dl"          class="panel"></div>
+  <div id="t-structure"   class="panel"></div>
+  <div id="t-zones"       class="panel"></div>
+  <div id="t-bos"         class="panel"></div>
+  <div id="t-fib"         class="panel"></div>
+  <div id="t-hunting"     class="panel"></div>
+  <div id="t-mtf"         class="panel"></div>
+  <div id="t-sentiment"   class="panel"></div>
+  <div id="t-derivatives" class="panel"></div>
+  <div id="t-forecast"    class="panel"></div>
+  <div id="t-advanced"    class="panel"></div>
+  <div id="t-backtest"    class="panel"></div>
+  <div id="t-predictions" class="panel"></div>
+  <div id="t-modeloutlook" class="panel"></div>
+  <div id="t-tradesetup"  class="panel"></div>
+  <div id="t-smallmode"   class="panel"></div>
+
+  <div id="t-actions" class="panel">
+    <div class="card">
+      <h3>🛠 Backend actions</h3>
+      <p style="color:var(--muted);margin-bottom:18px">
+        These trigger the Python backend (server.py must be running locally
+        or hosted on Render/Railway).
+      </p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <button class="btn warn" onclick="callBackend('/api/train')">🛠 Train current pair/TF</button>
+        <button class="btn"      onclick="callBackend('/api/train?force=1')">🔁 Force retrain</button>
+        <button class="btn"      onclick="callBackend('/api/analyze')">⚡ Re-analyze</button>
+        <button class="btn ghost" onclick="callBackend('/api/backtest')">📊 Run backtest</button>
+      </div>
+      <p style="color:var(--gold);margin-top:14px;font-size:12px">
+        ℹ️ Buttons need the backend reachable at <code id="backend-url">window.location</code>.
+        If you're viewing via a static-host (no backend), use Colab's <code>python run.py</code>
+        instead.
+      </p>
+    </div>
+  </div>
+
+  <div id="t-status" class="panel"></div>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const fmt$ = v => v==null?'—':'$'+Number(v).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:6});
+const fmtP = v => v==null?'—':(Number(v)*100).toFixed(1)+'%';
+const fmtN = v => v==null?'—':Number(v).toLocaleString();
+const safe = (o,...p) => p.reduce((a,k)=>a&&a[k]!=null?a[k]:null,o);
+const badge = (t,k) => `<span class="badge ${k}">${t}</span>`;
+
+function toast(msg, kind){
+  const el = $("toast"); el.textContent = msg;
+  el.className = "toast show " + (kind||"");
+  setTimeout(()=>el.classList.remove("show"), 3500);
+}
+
+/* ──────── Credentials ──────── */
+let CREDS = {
+  fbProj:   localStorage.getItem("fb_proj")  || "",
+  fbKey:    localStorage.getItem("fb_key")   || "",
+  fbDb:     localStorage.getItem("fb_db")    || "",
+  sbUrl:    localStorage.getItem("sb_url")   || "",
+  sbKey:    localStorage.getItem("sb_key")   || "",
+  ghRepo:   localStorage.getItem("gh_repo")  || "",
+  ghToken:  localStorage.getItem("gh_token") || "",
+};
+
+function showSetupIfNeeded(){
+  const hasFb = CREDS.fbDb && CREDS.fbKey;
+  const hasSb = CREDS.sbUrl && CREDS.sbKey;
+  const hasGh = CREDS.ghRepo && CREDS.ghToken;
+  if(!hasFb && !hasSb && !hasGh){
+    $("setup-overlay").style.display = "flex";
+    return true;
+  }
+  return false;
+}
+function saveCredsAndLoad(){
+  CREDS.fbProj  = $("cfg-fb-proj").value.trim();
+  CREDS.fbKey   = $("cfg-fb-key").value.trim();
+  CREDS.fbDb    = $("cfg-fb-db").value.trim();
+  CREDS.sbUrl   = ($("cfg-sb-url")||{value:""}).value.trim();
+  CREDS.sbKey   = ($("cfg-sb-key")||{value:""}).value.trim();
+  CREDS.ghRepo  = $("cfg-gh-repo").value.trim();
+  CREDS.ghToken = $("cfg-gh-token").value.trim();
+  Object.entries({fb_proj:CREDS.fbProj, fb_key:CREDS.fbKey, fb_db:CREDS.fbDb,
+                   sb_url:CREDS.sbUrl, sb_key:CREDS.sbKey,
+                   gh_repo:CREDS.ghRepo, gh_token:CREDS.ghToken})
+    .forEach(([k,v])=>localStorage.setItem(k,v));
+  $("setup-overlay").style.display = "none";
+  toast("✓ Credentials saved", "success");
+  loadAll();
+  refreshPairPicker();
+}
+function resetCreds(){
+  if(!confirm("Clear stored credentials and re-enter?")) return;
+  ["fb_proj","fb_key","fb_db","sb_url","sb_key","gh_repo","gh_token"]
+    .forEach(k=>localStorage.removeItem(k));
+  location.reload();
+}
+
+/* ──────── Storage read (Firebase → Supabase → GitHub) ──────── */
+async function readJson(key){
+  // 1) Embedded payload (when collect_all.py inlined data into this HTML)
+  if(window.__EMBED_DASHBOARD_DATA__ && key==="dashboard_data"){
+    return window.__EMBED_DASHBOARD_DATA__;
+  }
+  // 2) Firebase RTDB
+  if(CREDS.fbDb && CREDS.fbKey){
+    try{
+      const url = `${CREDS.fbDb.replace(/\/$/,'')}/data/${key}.json?auth=${CREDS.fbKey}`;
+      const r = await fetch(url);
+      if(r.ok){
+        const j = await r.json();
+        if(j && (typeof j !== "object" || Array.isArray(j) || Object.keys(j).length)) return j;
+      }
+    }catch(e){}
+  }
+  // 3) Supabase kv_json
+  if(CREDS.sbUrl && CREDS.sbKey){
+    try{
+      const url = `${CREDS.sbUrl.replace(/\/$/,'')}/rest/v1/kv_json?key=eq.data/${key}.json&select=value`;
+      const r = await fetch(url, {headers:{apikey:CREDS.sbKey,
+                                            Authorization:`Bearer ${CREDS.sbKey}`}});
+      if(r.ok){
+        const rows = await r.json();
+        if(rows && rows.length) return rows[0].value;
+      }
+    }catch(e){}
+  }
+  // 4) GitHub Contents API
+  if(CREDS.ghRepo && CREDS.ghToken){
+    try{
+      const url = `https://api.github.com/repos/${CREDS.ghRepo}/contents/data/${key}.json`;
+      const r = await fetch(url, {headers:{Authorization:`Bearer ${CREDS.ghToken}`,
+                                            Accept:"application/vnd.github+json"}});
+      if(!r.ok) return null;
+      const meta = await r.json();
+      const b64 = (meta.content||"").replace(/\n/g,"");
+      if(b64) return JSON.parse(atob(b64));
+      if(meta.download_url){
+        const r2 = await fetch(meta.download_url, {headers:{Authorization:`Bearer ${CREDS.ghToken}`}});
+        if(r2.ok) return await r2.json();
+      }
+    }catch(e){}
+  }
+  return null;
+}
+async function listKeys(prefix=""){
+  const out = new Set();
+  // 1) GitHub directory listing
+  if(CREDS.ghRepo && CREDS.ghToken){
+    try{
+      const url = `https://api.github.com/repos/${CREDS.ghRepo}/contents/data/${prefix}`;
+      const r = await fetch(url, {headers:{Authorization:`Bearer ${CREDS.ghToken}`,
+                                            Accept:"application/vnd.github+json"}});
+      if(r.ok){
+        const list = await r.json();
+        if(Array.isArray(list)){
+          list.filter(x=>x.name && x.name.endsWith(".json"))
+              .forEach(x => out.add(x.path.replace("data/","").replace(".json","")));
+        }
+      } else if(r.status === 404){
+        console.log(`[listKeys] github 404 — no data/ dir yet`);
+      } else {
+        console.warn(`[listKeys] github HTTP ${r.status}`);
+      }
+    }catch(e){console.warn("[listKeys] github error", e);}
+  }
+  // 2) Supabase RPC
+  if(CREDS.sbUrl && CREDS.sbKey){
+    try{
+      const url = `${CREDS.sbUrl.replace(/\/$/,'')}/rest/v1/kv_json?key=like.data/${prefix}*&select=key&limit=500`;
+      const r = await fetch(url, {headers:{apikey:CREDS.sbKey,
+                                            Authorization:`Bearer ${CREDS.sbKey}`}});
+      if(r.ok){
+        const rows = await r.json();
+        if(Array.isArray(rows)){
+          rows.forEach(x => out.add(x.key.replace("data/","").replace(".json","")));
+        }
+      } else { console.warn(`[listKeys] supabase HTTP ${r.status}`); }
+    }catch(e){console.warn("[listKeys] supabase error", e);}
+  }
+  // 3) Firebase RTDB shallow listing
+  if(CREDS.fbDb && CREDS.fbKey){
+    try{
+      // RTDB safe-key replaces "/" with nothing, so we can list under data
+      const url = `${CREDS.fbDb.replace(/\/$/,'')}/data.json?shallow=true&auth=${CREDS.fbKey}`;
+      const r = await fetch(url);
+      if(r.ok){
+        const obj = await r.json();
+        if(obj && typeof obj === "object"){
+          Object.keys(obj).forEach(k => {
+            // Strip our safe-key encoding (rough)
+            if(k.startsWith(prefix.replace(/\//g,"_"))) out.add(k);
+          });
+        }
+      }
+    }catch(e){console.warn("[listKeys] firebase error", e);}
+  }
+  return Array.from(out);
+}
+
+/* ──────── PAIR PICKER (v25.10) — list every saved analysis ──────── */
+async function refreshPairPicker(){
+  const sel = $("pair-tf-picker");
+  if(!sel) return;
+  // Need at least one backend with creds to scan
+  const hasAny = (CREDS.fbDb && CREDS.fbKey) ||
+                 (CREDS.sbUrl && CREDS.sbKey) ||
+                 (CREDS.ghRepo && CREDS.ghToken);
+  if(!hasAny){
+    sel.innerHTML = '<option value="">⚙ enter creds (Settings) to browse pairs</option>';
+    return;
+  }
+  sel.innerHTML = '<option value="">— scanning storage…</option>';
+  // Look at multiple key patterns the engine writes
+  const keys = await listKeys("");
+  const merged = new Set();
+  for(const k of keys){
+    // pattern: final_<SYM>_USD_<TF>   → e.g. final_BTC_USD_15m
+    let m = k.match(/^final_([A-Z0-9]+_USD)_([0-9]+[mhd])$/);
+    if(m){ merged.add(`${m[1]}_${m[2]}`); continue; }
+    m = k.match(/^dashboard_data_([A-Z0-9]+_USD)_([0-9]+[mhd])$/);
+    if(m){ merged.add(`${m[1]}_${m[2]}`); continue; }
+    m = k.match(/^checkpoints[\/_]([A-Z0-9]+_USD)_([0-9]+[mhd])$/);
+    if(m){ merged.add(`${m[1]}_${m[2]}`); continue; }
+  }
+  if(!merged.size){
+    sel.innerHTML = '<option value="">(no saved analyses found — train+analyze a pair first)</option>';
+    return;
+  }
+  sel.innerHTML = '<option value="">— pick a pair to view —</option>';
+  for(const rid of Array.from(merged).sort()){
+    const opt = document.createElement('option');
+    opt.value = rid;
+    // Pretty label: BTC_USD_15m → BTC-USD @ 15m
+    const parts = rid.split("_");
+    const tf = parts.pop();
+    const sym = parts.join("-");
+    opt.textContent = `${sym} @ ${tf}`;
+    sel.appendChild(opt);
+  }
+  toast(`Found ${merged.size} saved analyses`, "success");
+}
+
+async function loadSelectedPair(){
+  const sel = $("pair-tf-picker");
+  if(!sel || !sel.value){ toast("Pick a pair first", "error"); return; }
+  const rid = sel.value;
+  toast(`Loading ${rid}…`);
+  // Try pair-specific payload first, fall back to global one
+  let payload = await readJson(`dashboard_data_${rid}`);
+  if(!payload){
+    payload = await readJson(`final_${rid}`);
+    if(payload) payload = {ctx: payload, decision: {verdict: payload.verdict,
+                            verdict_text: payload.verdict_text}};
+  }
+  if(!payload){ toast(`No data found for ${rid}`, "error"); return; }
+  // Render
+  if(typeof renderAll === "function") renderAll(payload);
+  else if(typeof renderHero === "function"){
+    renderHero(payload); renderModels(payload); renderDL(payload);
+    renderStructure(payload); renderBacktest(payload); renderStatus(payload);
+  }
+  toast(`✓ Loaded ${rid}`, "success");
+}
+
+/* ──────── Backend trigger (if reachable) ──────── */
+async function callBackend(endpoint){
+  toast(`Calling ${endpoint}…`);
+  try{
+    const r = await fetch(endpoint, {method:'POST'});
+    const j = await r.json();
+    if(j.queued) toast(`✓ Action queued: ${j.name||endpoint}`, 'success');
+    else toast(`✗ ${j.reason||'failed'}`, 'error');
+  }catch(e){
+    toast(`✗ Backend not reachable — run \`python run.py\` in your terminal first`, 'error');
+  }
+}
+
+/* ──────── Fast Mode picker ──────── */
+async function refreshFastModePicker(){
+  const sel = $("fast-mode-picker");
+  sel.innerHTML = '<option>loading trained pairs…</option>';
+  // List all checkpoints; filter for FAST_MODE_READY
+  const keys = await listKeys("checkpoints");
+  if(!keys.length){
+    sel.innerHTML = '<option>(no trained models yet — train one first)</option>';
+    return;
+  }
+  sel.innerHTML = '';
+  for(const k of keys){
+    const ck = await readJson("checkpoints/"+k);
+    if(ck && ck.verdict === "FAST_MODE_READY"){
+      const opt = document.createElement('option');
+      opt.value = k;
+      opt.textContent = `${ck.symbol} @ ${ck.tf_label}  · trained ${(ck.last_update||'').slice(0,16)}`;
+      sel.appendChild(opt);
+    }
+  }
+  if(!sel.children.length){
+    sel.innerHTML = '<option>(no complete trainings yet)</option>';
+  }
+}
+function runFastMode(){
+  const sel = $("fast-mode-picker");
+  if(!sel.value || sel.value.startsWith("(")){
+    toast("Pick a trained pair first", "error"); return;
+  }
+  // Try backend trigger
+  toast("Calling /api/analyze on backend…");
+  fetch('/api/analyze', {method:'POST'}).then(r=>r.json())
+    .then(j=> toast(j.queued ? '⚡ Fast mode triggered — wait 30s then dashboard will refresh' : '✗ '+(j.reason||'failed'), j.queued?'success':'error'))
+    .catch(()=> toast('✗ Backend not reachable — run `python run.py fast` in Colab/terminal', 'error'));
+}
+
+/* ──────── Render helpers ──────── */
+function renderHero(d){
+  const dec = safe(d,'decision') || {};
+  const ctx = safe(d,'ctx') || d;
+  const cand = ctx.chosen_candidate || ctx.setup_candidate || {};
+  const setup = ctx.setup || {};
+  const v = dec.verdict || (cand.status==='TRADE_NOW'?'TAKE_TRADE':cand.status==='WATCH'?'WATCH':'NO_TRADE');
+  const color = v==='TAKE_TRADE'?'green':v==='WATCH'?'yellow':'red';
+  const icon  = v==='TAKE_TRADE'?'🟢':v==='WATCH'?'🟡':'🔴';
+  const label = v==='TAKE_TRADE'?'TAKE TRADE':v==='WATCH'?'WATCH':'NO TRADE';
+  $("verdict-box").className = `verdict ${color}`;
+  $("v-icon").textContent  = icon;
+  $("v-label").textContent = label;
+  const heroDir = cand.direction || setup.direction || dec.chosen_direction || ctx.direction || '—';
+  const heroStatus = cand.status || dec.chosen_status || '';
+  $("v-sub").textContent   = dec.verdict_text || (heroStatus ? `${heroStatus} · ${heroDir}` : '—');
+  $("k-pair").textContent  = ctx.symbol || '—';
+  $("k-price").textContent = fmt$(ctx.price);
+  $("k-dir").textContent = heroDir;
+  $("k-dir").className = 'val ' + (heroDir==='LONG'?'up':heroDir==='SHORT'?'down':'neutral');
+  const heroScore = cand.setup_score!==undefined ? cand.setup_score/100 : dec.chosen_score;
+  const heroProb  = cand.probability!==undefined ? cand.probability : dec.chosen_win_prob;
+  $("k-conf").textContent = fmtP(heroScore);
+  $("k-wp").textContent   = fmtP(heroProb);
+  $("k-regime").textContent = ctx.regime || '—';
+  $("hdr-sub").textContent = `${ctx.symbol||'—'} @ ${ctx.tf_label||'—'}  ·  last ${ctx.newest||'—'}`;
+}
+
+function renderSetup(d){
+  const ctx = safe(d,'ctx')||d;
+  const s = ctx.setup||{}, tp=ctx.tp_sl_prob||{}, tb=ctx.tb_models||{}, dec=safe(d,'decision')||{};
+  const dir = s.direction, dcol=dir==='LONG'?'green':dir==='SHORT'?'red':'gold';
+  const legacyDir = (dec.legacy_decision||{}).chosen_direction;
+  let html='';
+  if(legacyDir && legacyDir !== dir){
+    html += `<div class="card" style="border-color:var(--gold)"><b>Display consistency note:</b> legacy confluence picked ${legacyDir}, but the precision arbiter selected the setup shown here: <b>${dir}</b>. Hero/Setup/Trade Setup now follow this selected setup.</div>`;
+  }
+  if(s.valid){
+    const isLong = dir==='LONG';
+    const tbP = isLong ? tb.long_win_prob : tb.short_win_prob;
+    const rr = s.rr1||0, ev = tbP ? tbP*rr-(1-tbP) : 0;
+    html += `<div class="grid-2">
+      <div class="card"><h3>🎯 Trade plan</h3>
+        <div class="kv"><span class="k">Direction</span><span class="v">${badge(dir,dcol)}</span></div>
+        <div class="kv"><span class="k">Entry</span><span class="v">${fmt$(s.entry)}</span></div>
+        <div class="kv"><span class="k">Stop Loss</span><span class="v" style="color:var(--red)">${fmt$(s.sl)} <span style="font-weight:400;color:var(--muted)">(hit ${(tp.sl_prob||0).toFixed(1)}%)</span></span></div>
+        <div class="kv"><span class="k">TP1 (50%)</span><span class="v" style="color:var(--green)">${fmt$(s.tp1)} <span style="font-weight:400;color:var(--muted)">(1:${rr.toFixed(2)}R, hit ${(tp.tp1_prob||0).toFixed(1)}%)</span></span></div>
+        <div class="kv"><span class="k">TP2 (30%)</span><span class="v" style="color:var(--green)">${fmt$(s.tp2)}</span></div>
+        ${s.tp3?`<div class="kv"><span class="k">TP3 (20%)</span><span class="v">${fmt$(s.tp3)}</span></div>`:''}
+        <div class="kv"><span class="k">Risk</span><span class="v">${fmt$(s.risk)}</span></div>
+        <div class="kv"><span class="k">Quality</span><span class="v">${badge(s.quality||'—', s.quality==='HIGH'?'green':'gold')}</span></div>
+      </div>
+      <div class="card"><h3>📈 Expectancy</h3>
+        <div class="kv"><span class="k">Triple-barrier P(win)</span><span class="v">${fmtP(tbP)}</span></div>
+        <div class="kv"><span class="k">Expected R/trade</span><span class="v ${ev>=0?'up':'down'}">${ev>=0?'+':''}${ev.toFixed(3)}R</span></div>
+        <div class="kv"><span class="k">ATR</span><span class="v">${fmt$(s.atr_used)}</span></div>
+        <div class="kv"><span class="k">SL distance</span><span class="v">${s.sl_dist_atr||'—'}×ATR</span></div>
+        ${s.original_sl ? `
+        <hr style="border:none;border-top:1px solid var(--border);margin:12px 0">
+        <div style="font-weight:700;color:var(--accent);margin-bottom:6px">🛡 Smart-SL (v25.11)</div>
+        <div class="kv"><span class="k">Engine SL (orig)</span><span class="v" style="color:#888">${fmt$(s.original_sl)}</span></div>
+        <div class="kv"><span class="k">Smart SL (used)</span><span class="v" style="color:var(--green)">${fmt$(s.sl)}</span></div>
+        <div class="kv"><span class="k">Widened by</span><span class="v">${(Math.abs(s.sl-s.original_sl)/s.atr_used).toFixed(2)}×ATR</span></div>
+        ${s.smart_sl_aggressiveness ? `<div class="kv"><span class="k">Mode</span><span class="v">${s.smart_sl_aggressiveness}</span></div>`:''}
+        ${s.smart_sl_chosen ? `<div class="kv"><span class="k">Chosen rule</span><span class="v">${s.smart_sl_chosen}</span></div>`:''}
+        ${s.smart_sl_candidates ? `<div class="kv" style="margin-top:4px"><span class="k">All candidates</span><span class="v" style="font-size:11px;font-weight:400">${
+          Object.entries(s.smart_sl_candidates).map(([k,v])=>`${k}:${(+v).toFixed(4)}`).join('<br>')
+        }</span></div>`:''}
+        `:''}
+      </div></div>`;
+  } else {
+    html += `<div class="card"><div class="empty">No valid setup: ${s.reason||'—'}</div></div>`;
+  }
+  if((dec.chosen_vetoes||[]).length){
+    html += `<div class="card" style="border-color:var(--red)"><h3 style="color:var(--red)">🚫 Vetoes</h3>${
+      dec.chosen_vetoes.map(v=>`<div class="kv"><span class="k">✗</span><span class="v">${v}</span></div>`).join('')
+    }</div>`;
+  }
+  $("t-setup").innerHTML = html;
+}
+
+function renderModels(d){
+  const ctx = safe(d,'ctx')||d;
+  const cmL=ctx.cm_long||{}, cmS=ctx.cm_short||{};
+  const N={hgb:'HistGradBoost',rf:'RandomForest',et:'ExtraTrees',lr:'LogReg',
+            knn:'KNN',mlp:'MLP',xgb:'XGBoost',lgb:'LightGBM',cat:'CatBoost',
+            dl:'DL Ensemble',stack:'★ Stack'};
+
+  // Direction-specific committees are NOT the same thing as market LONG/SHORT labels.
+  // LONG committee pred=1 means "LONG setup positive".
+  // SHORT committee pred=1 means "SHORT setup positive".
+  // Old UI printed SHORT committee pred=1 as "L", which was misleading.
+  function tbl(label,cm,side){
+    const preds=cm.preds||{}, probs=cm.probs||{}, wf=cm.wf_accs||{};
+    const allKeys = new Set([...Object.keys(preds), ...Object.keys(probs),
+                              ...Object.keys(wf)]);
+    if(!allKeys.size){
+      return `<div class="card"><h3>${label}</h3>
+        <div class="empty">No model votes available.<br><span style="color:#888">
+        Run <code>python full_pipeline.py</code> to populate.</span></div></div>`;
+    }
+    let yes=0,no=0;
+    const rows = Array.from(allKeys).sort().map(k => {
+      const niceName = N[k] || k.toUpperCase();
+      const probVal = probs[k] !== undefined ? probs[k]
+                     : (typeof preds[k] === "number" ? preds[k] : 0.5);
+      const p = preds[k] !== undefined ? preds[k]
+              : (probVal >= 0.5 ? 1 : 0);
+      if(k!=='stack'){ p===1 ? yes++ : no++; }
+      const yesLabel = side==='SHORT' ? '▲ SHORT YES' : '▲ LONG YES';
+      const noLabel  = side==='SHORT' ? '▼ SHORT NO'  : '▼ LONG NO';
+      return `<tr><td>${niceName}${k==='stack'?' ⭐':''}</td>
+        <td class="center">${p===1?badge(yesLabel,'green'):badge(noLabel,'red')}</td>
+        <td class="right">${((probVal||0)*100).toFixed(1)}%</td>
+        <td class="right">${((wf[k]||0)*100).toFixed(1)}%</td></tr>`;
+    }).join('');
+    const note = cm._from_slim_cache
+      ? `<p style="text-align:center;margin-top:6px;color:#cb9d4d;font-size:11px">
+         ⚠ from slim cache — run full_pipeline.py for live inference</p>` : '';
+    const stackLabel = side==='SHORT' ? 'SHORT-positive stack' : 'LONG-positive stack';
+    return `<div class="card"><h3>${label}</h3>
+      <p style="color:var(--muted);font-size:12px;margin:0 0 10px">
+        ${side} committee: YES means this side's setup/model is positive. It is not a separate universal L/S vote.
+      </p>
+      <table><thead><tr><th>Model</th><th class="center">Side signal</th>
+        <th class="right">Conf</th><th class="right">WF</th></tr></thead>
+      <tbody>${rows}</tbody></table>
+      <p style="text-align:center;margin-top:12px;color:var(--muted)">
+        Votes: <b style="color:var(--green)">${yes} YES</b> ·
+              <b style="color:var(--red)">${no} NO</b> ·
+              ${stackLabel} <b>${((cm.stack_bull||0)*100).toFixed(1)}%</b>
+        ${cm.n_models ? ` · n=<b>${cm.n_models}</b>` : ""}
+      </p>${note}</div>`;
+  }
+  $("t-models").innerHTML = `<div class="grid-2">${tbl('🟢 LONG committee',cmL,'LONG')}${tbl('🔴 SHORT committee',cmS,'SHORT')}</div>`;
+}
+
+function renderDL(d){
+  const ctx = safe(d,'ctx') || d;
+  // v25.9: pull DL from BOTH long & short committees, not just `committee`
+  const cmL = ctx.cm_long || {};
+  const cmS = ctx.cm_short || {};
+  const dlL = cmL.dl_individual || {};
+  const dlS = cmS.dl_individual || {};
+  // Merge into one view, prefer LONG values, mark each row
+  if(!Object.keys(dlL).length && !Object.keys(dlS).length){
+    $("t-dl").innerHTML = `<div class="card"><div class="empty">
+      No DL data yet — run <code>python full_pipeline.py</code> to populate.</div></div>`;
+    return;
+  }
+  const allArchs = new Set([...Object.keys(dlL), ...Object.keys(dlS)]);
+  let nL=0, nS=0;
+  const rows = Array.from(allArchs).sort().map(name => {
+    const pL = dlL[name] !== undefined ? dlL[name] : null;
+    const pS = dlS[name] !== undefined ? dlS[name] : null;
+    if(pL !== null) (pL >= 0.5 ? nL++ : nS++);
+    return `<tr>
+      <td>${name.toUpperCase()}</td>
+      <td class="center">${pL !== null ? (pL >= 0.5 ? badge('▲','green') : badge('▼','red')) : '—'}</td>
+      <td class="right">${pL !== null ? (pL*100).toFixed(1)+'%' : '—'}</td>
+      <td class="center">${pS !== null ? (pS >= 0.5 ? badge('▼','red')  : badge('▲','green')) : '—'}</td>
+      <td class="right">${pS !== null ? (pS*100).toFixed(1)+'%' : '—'}</td>
+    </tr>`;
+  }).join('');
+  $("t-dl").innerHTML = `<div class="card"><h3>🧬 Deep Learning (${allArchs.size} architectures)</h3>
+    <table>
+      <thead><tr>
+        <th>Architecture</th>
+        <th class="center">LONG sig</th><th class="right">LONG p</th>
+        <th class="center">SHORT sig</th><th class="right">SHORT p</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <p style="text-align:center;margin-top:12px;color:var(--muted)">
+      LONG votes: <b style="color:var(--green)">${nL}L</b> · <b style="color:var(--red)">${nS}S</b>
+    </p></div>`;
+}
+
+function renderAdvanced(d){
+  const ctx=safe(d,'ctx')||d;
+  const af=ctx.advanced_features||{};
+  if(!Object.keys(af).length){$("t-advanced").innerHTML='<div class="card"><div class="empty">No advanced features yet</div></div>';return;}
+  function card(title,items){
+    const rows = items.map(([k,label,fmt])=>{
+      const v=af[k];
+      const disp = fmt ? fmt(v) : (typeof v==='number'?v.toFixed(4):String(v||'—'));
+      const col = (k.includes('imbalance')||k.includes('ofi')||k.includes('skew'))
+                    ? (v>0?'var(--green)':v<0?'var(--red)':'var(--ink)') : 'var(--ink)';
+      return `<div class="kv"><span class="k">${label}</span><span class="v" style="color:${col}">${disp}</span></div>`;
+    }).join('');
+    return `<div class="card"><h3>${title}</h3>${rows}</div>`;
+  }
+  $("t-advanced").innerHTML = `<div class="grid-2">
+    ${card('🔮 Prophet',[
+      ['prophet_trend','Trend slope',v=>v.toFixed(4)],
+      ['prophet_forecast_24h_pct','24h forecast %',v=>(v>0?'+':'')+v.toFixed(2)+'%'],
+      ['prophet_changepoint','Hours since CP',v=>v.toFixed(0)],
+    ])}
+    ${card('💧 Order Flow Imbalance',[
+      ['ofi_5','OFI 5-bar',v=>v.toFixed(3)],
+      ['ofi_15','OFI 15-bar',v=>v.toFixed(3)],
+      ['ofi_30','OFI 30-bar',v=>v.toFixed(3)],
+      ['ofi_z','OFI z-score',v=>v.toFixed(2)],
+    ])}
+    ${card('📖 Order Book',[
+      ['ob_imbalance','Bid/Ask ratio',v=>v.toFixed(2)+'x'],
+      ['ob_depth_ratio','Depth ratio',v=>v.toFixed(2)+'x'],
+      ['ob_spread_bps','Spread (bps)',v=>v.toFixed(1)],
+      ['ob_source','Source',null],
+    ])}
+    ${card('💸 Funding (multi-ex)',[
+      ['funding_8ex_avg','Avg funding',v=>(v*100).toFixed(4)+'%'],
+      ['funding_8ex_skew','Ex disagreement',v=>(v*100).toFixed(4)+'%'],
+      ['funding_max_ex','Max-rate exchange',null],
+      ['n_exchanges','# exchanges',v=>v.toFixed(0)],
+    ])}
+    ${card('💥 Liquidations',[
+      ['liq_long_cascade','Long-liq rate',v=>(v*100).toFixed(1)+'%'],
+      ['liq_short_cascade','Short-liq rate',v=>(v*100).toFixed(1)+'%'],
+      ['liq_imbalance','Liq imbalance',v=>v.toFixed(3)],
+    ])}
+  </div>`;
+}
+
+async function renderBacktest(){
+  // Find any backtest file
+  const keys = await listKeys("");
+  const btKey = keys.find(k=>k.startsWith("backtest_"));
+  if(!btKey){
+    $("t-backtest").innerHTML='<div class="card"><div class="empty">No backtest run yet</div></div>';return;
+  }
+  const d = await readJson(btKey);
+  if(!d){$("t-backtest").innerHTML='<div class="card"><div class="empty">Could not load backtest</div></div>';return;}
+  const folds=d.folds||[], o=d.overall||{};
+  let table = `<table><thead><tr><th>Year</th><th class="right">Trades</th><th class="right">WR%</th>
+    <th class="right">Gross E</th><th class="right">+Fees</th><th class="right">+Slip Low</th>
+    <th class="right">+Slip Med</th><th class="right">+Slip High</th></tr></thead><tbody>`;
+  folds.forEach(f=>{
+    if(!f.n_trades){table+=`<tr><td>${f.test_year}</td><td colspan="7" class="empty">no trades</td></tr>`;return;}
+    const s = f.scenarios||{};
+    const fmt = v=>v==null?'—':(v>=0?'+':'')+v.toFixed(3)+'R';
+    const col = v=>v==null?'':('color:'+(v>=0?'var(--green)':'var(--red)'));
+    table += `<tr><td>${f.test_year}</td><td class="right">${f.n_trades}</td><td class="right">${(f.win_rate*100).toFixed(1)}%</td>
+      <td class="right" style="${col(s.gross_no_fees?.expectancy_R)}">${fmt(s.gross_no_fees?.expectancy_R)}</td>
+      <td class="right" style="${col(s.net_fees_only?.expectancy_R)}">${fmt(s.net_fees_only?.expectancy_R)}</td>
+      <td class="right" style="${col(s.net_fees_slip_low?.expectancy_R)}">${fmt(s.net_fees_slip_low?.expectancy_R)}</td>
+      <td class="right" style="${col(s.net_fees_slip_med?.expectancy_R)}">${fmt(s.net_fees_slip_med?.expectancy_R)}</td>
+      <td class="right" style="${col(s.net_fees_slip_high?.expectancy_R)}">${fmt(s.net_fees_slip_high?.expectancy_R)}</td>
+    </tr>`;
+  });
+  table += '</tbody></table>';
+  $("t-backtest").innerHTML = `<div class="card"><h3>📊 Walk-forward (${d.symbol} @ ${d.tf_label})</h3>${table}</div>`;
+}
+
+async function renderStatus(){
+  const keys = await listKeys("checkpoints");
+  let html = `<div class="grid-2">
+    <div class="card"><h3>⚙️ Training jobs on storage</h3><table>`;
+  html += '<thead><tr><th>Pair / TF</th><th>Status</th><th>Last update</th></tr></thead><tbody>';
+  for(const k of keys){
+    const ck = await readJson("checkpoints/"+k);
+    if(!ck) continue;
+    const v = ck.verdict||'?';
+    const col = v==='FAST_MODE_READY'?'green':v==='TRAIN_INCOMPLETE'?'gold':'dim';
+    const done = Object.values(ck.stages||{}).filter(s=>s.done).length;
+    const total = Object.keys(ck.stages||{}).length;
+    html += `<tr>
+      <td><b>${ck.symbol} @ ${ck.tf_label}</b></td>
+      <td>${badge(v,col)} ${done}/${total} stages</td>
+      <td style="font-size:11px">${(ck.last_update||'').slice(0,16)}</td></tr>`;
+  }
+  html += `</tbody></table></div>
+    <div class="card">
+      <h3>📜 Live backend output</h3>
+      <p style="color:var(--muted);font-size:12px;margin-bottom:8px">
+        Auto-refreshes every 2 sec when this tab is visible.
+        Only works when backend (<code>python run.py server</code>) is reachable.
+      </p>
+      <pre class="logs" id="live-logs">Connecting to backend …</pre>
+    </div>
+  </div>`;
+  $("t-status").innerHTML = html;
+}
+
+let _logPollTimer = null;
+async function pollLogs(){
+  try{
+    const r = await fetch('/api/logs?n=300');
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const text = await r.text();
+    const el = $("live-logs");
+    if(el){
+      el.textContent = text || '(no logs yet)';
+      el.scrollTop = el.scrollHeight;
+    }
+  }catch(e){
+    const el = $("live-logs");
+    if(el) el.textContent = '⚠️ Backend not reachable.\n\nStart it with:  python run.py server\n\n(Or in Colab, use ngrok to expose port 8000.)';
+  }
+}
+function startLogPolling(){
+  if(_logPollTimer) clearInterval(_logPollTimer);
+  pollLogs();
+  _logPollTimer = setInterval(pollLogs, 2000);
+}
+function stopLogPolling(){
+  if(_logPollTimer){clearInterval(_logPollTimer); _logPollTimer=null;}
+}
+
+/* ──────── Chart ──────── */
+let chart, candleSeries, predSeries, predLineSeries;
+function initChart(){
+  if(chart) return;
+  chart = LightweightCharts.createChart(document.getElementById('chart-container'), {
+    width: document.getElementById('chart-container').offsetWidth, height: 460,
+    layout: {background:{color:'#131a2e'}, textColor:'#e8ecf5'},
+    grid: {vertLines:{color:'#23304f'}, horzLines:{color:'#23304f'}},
+    rightPriceScale: {borderColor:'#23304f'},
+    timeScale: {borderColor:'#23304f', timeVisible:true, secondsVisible:false},
+  });
+  candleSeries = chart.addCandlestickSeries({
+    upColor:'#52d273', downColor:'#ff5e7a',
+    borderUpColor:'#52d273', borderDownColor:'#ff5e7a',
+    wickUpColor:'#52d273', wickDownColor:'#ff5e7a',
+  });
+  // Predicted candles — dimmer, semi-transparent
+  predSeries = chart.addCandlestickSeries({
+    upColor:'rgba(82,210,115,0.35)', downColor:'rgba(255,94,122,0.35)',
+    borderUpColor:'#52d273', borderDownColor:'#ff5e7a',
+    wickUpColor:'rgba(82,210,115,0.55)', wickDownColor:'rgba(255,94,122,0.55)',
+    priceLineVisible:false, lastValueVisible:false,
+  });
+  predLineSeries = chart.addLineSeries({
+    color:'#ffd54a', lineWidth:2, lineStyle:2,  // dashed gold
+    priceLineVisible:false, lastValueVisible:false,
+  });
+  refreshChartData();
+}
+
+function refreshChartData(){
+  if(!chart || !window._lastDashboard) return;
+  const ctx = safe(window._lastDashboard,'ctx') || window._lastDashboard;
+  const tail = ctx.candles_tail || [];
+  const pred = ctx.pred_next_20 || [];
+  if(tail.length){
+    candleSeries.setData(tail);
+  }
+  if(pred.length){
+    predSeries.setData(pred);
+    // Dashed line connecting close-prices for the forecast
+    predLineSeries.setData(pred.map(p=>({time:p.time, value:p.close})));
+  } else {
+    predSeries.setData([]);
+    predLineSeries.setData([]);
+  }
+  // Setup price lines (entry / SL / TP)
+  const s = ctx.setup || {};
+  if(s.valid){
+    try { candleSeries.createPriceLine({price:s.entry, color:'#ffd54a',
+      lineWidth:2, lineStyle:0, title:'ENTRY'}); } catch(_){}
+    try { candleSeries.createPriceLine({price:s.sl, color:'#ff5e7a',
+      lineWidth:1, lineStyle:2, title:'SL'}); } catch(_){}
+    try { candleSeries.createPriceLine({price:s.tp1, color:'#52d273',
+      lineWidth:1, lineStyle:2, title:'TP1'}); } catch(_){}
+  }
+  chart.timeScale().fitContent();
+}
+
+/* ──────── Tab switching ──────── */
+document.querySelectorAll('.tab-btn').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active'); $(b.dataset.t).classList.add('active');
+    if(b.dataset.t==='t-chart') setTimeout(()=>{initChart(); chart && chart.timeScale().fitContent();},100);
+    if(b.dataset.t==='t-backtest') renderBacktest();
+    if(b.dataset.t==='t-status'){renderStatus(); setTimeout(startLogPolling,300);}
+    else { stopLogPolling(); }
+  };
+});
+
+/* ──────── 20-tab renderers ──────── */
+function renderStructure(d){
+  const ctx=safe(d,'ctx')||d;
+  const sr = ctx.sr_levels || [];
+  const obs = ctx.order_blocks || {};
+  const bull = obs.bull || [], bear = obs.bear || [];
+  const fvgs = ctx.fvgs || [];
+
+  const srRows = sr.slice(0,15).map(s=>`<tr>
+    <td>${badge(s.type||'SR','gold')}</td>
+    <td class="right">${fmt$(s.price||s.level)}</td>
+    <td class="right">${(s.strength||s.touches||0)}</td>
+    <td>${s.last_touch||''}</td></tr>`).join('') || '<tr><td colspan="4" class="empty">No SR levels</td></tr>';
+
+  const obRows = [...bull.slice(0,8).map(o=>['BULL',o]), ...bear.slice(0,8).map(o=>['BEAR',o])]
+    .map(([side,o])=>`<tr>
+      <td>${badge(side,side==='BULL'?'green':'red')}</td>
+      <td class="right">${fmt$(o.top)}</td><td class="right">${fmt$(o.bottom)}</td>
+      <td>${o.time||'—'}</td>
+      <td>${badge(o.status||'FRESH', o.status==='FRESH'?'green':'dim')}</td></tr>`).join('')
+    || '<tr><td colspan="5" class="empty">No order blocks</td></tr>';
+
+  const fvgRows = fvgs.slice(0,15).map(f=>`<tr>
+    <td>${badge(f.side||'?',f.side==='BULL'?'green':'red')}</td>
+    <td class="right">${fmt$(f.low)}</td>
+    <td class="right">${fmt$(f.high)}</td>
+    <td class="right">${fmt$((f.high||0)-(f.low||0))}</td>
+    <td>${f.time||'—'}</td>
+    <td>${badge(f.status||'OPEN', f.status==='OPEN'?'gold':'dim')}</td></tr>`).join('')
+    || '<tr><td colspan="6" class="empty">No FVGs</td></tr>';
+
+  $("t-structure").innerHTML = `
+    <div class="card"><h3>📏 Support / Resistance (${sr.length})</h3>
+      <table><thead><tr><th>Type</th><th class="right">Price</th>
+        <th class="right">Strength</th><th>Last touch</th></tr></thead>
+        <tbody>${srRows}</tbody></table></div>
+    <div class="card"><h3>📦 Order Blocks (${bull.length} bull / ${bear.length} bear)</h3>
+      <table><thead><tr><th>Side</th><th class="right">Top</th><th class="right">Bottom</th>
+        <th>Time</th><th>Status</th></tr></thead>
+        <tbody>${obRows}</tbody></table></div>
+    <div class="card"><h3>📉 Fair Value Gaps (${fvgs.length})</h3>
+      <table><thead><tr><th>Side</th><th class="right">Low</th><th class="right">High</th>
+        <th class="right">Size</th><th>Time</th><th>Status</th></tr></thead>
+        <tbody>${fvgRows}</tbody></table></div>`;
+}
+
+function renderZones(d){
+  const ctx=safe(d,'ctx')||d;
+  const dem = ctx.demand_zones || [];
+  const sup = ctx.supply_zones || [];
+  function rows(zs, kind){
+    return zs.slice(0,12).map(z=>`<tr>
+      <td>${badge(kind, kind==='DEMAND'?'green':'red')}</td>
+      <td class="right">${fmt$(z.top)}</td><td class="right">${fmt$(z.bottom)}</td>
+      <td>${z.time||'—'}</td>
+      <td>${badge(z.status||'FRESH', z.status==='FRESH'?'green':'dim')}</td>
+    </tr>`).join('') || `<tr><td colspan="5" class="empty">No ${kind.toLowerCase()} zones</td></tr>`;
+  }
+  $("t-zones").innerHTML = `
+    <div class="card"><h3>🟢 Demand Zones (${dem.length})</h3>
+      <table><thead><tr><th>Side</th><th class="right">Top</th><th class="right">Bottom</th>
+        <th>Time</th><th>Status</th></tr></thead><tbody>${rows(dem,'DEMAND')}</tbody></table></div>
+    <div class="card"><h3>🔴 Supply Zones (${sup.length})</h3>
+      <table><thead><tr><th>Side</th><th class="right">Top</th><th class="right">Bottom</th>
+        <th>Time</th><th>Status</th></tr></thead><tbody>${rows(sup,'SUPPLY')}</tbody></table></div>`;
+}
+
+function renderBOS(d){
+  const ctx=safe(d,'ctx')||d;
+  const bos = ctx.bos || [];
+  const rows = bos.slice(-15).reverse().map(b=>`<tr>
+    <td>${b.time||'—'}</td>
+    <td>${badge(b.event||'?', (b.event||'').includes('BULL')?'green':'red')}</td>
+    <td class="right">${fmt$(b.price)}</td>
+    <td class="center">${b.vol_confirmed?'✓':''}</td>
+  </tr>`).join('') || '<tr><td colspan="4" class="empty">No BOS / CHOCH events yet</td></tr>';
+  $("t-bos").innerHTML = `<div class="card"><h3>⚔️ Break of Structure / Change of Character</h3>
+    <table><thead><tr><th>Time</th><th>Event</th><th class="right">Price</th>
+      <th class="center">Vol confirmed</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+
+function renderFib(d){
+  const ctx=safe(d,'ctx')||d;
+  const f = ctx.fib_lvls || {};
+  if(!f || !Object.keys(f).length){
+    $("t-fib").innerHTML='<div class="card"><div class="empty">No fib data yet</div></div>';return;
+  }
+  const retr = f.retracements || f.levels || {};
+  const rows = Object.entries(retr).map(([lvl,price])=>`<tr>
+    <td>${lvl}%</td><td class="right">${fmt$(price)}</td></tr>`).join('');
+  $("t-fib").innerHTML = `<div class="card"><h3>📏 Fibonacci Retracements</h3>
+    <div class="kv"><span class="k">Swing direction</span><span class="v">${f.direction||'?'}</span></div>
+    <div class="kv"><span class="k">Swing high</span><span class="v">${fmt$(f.swing_high)}</span></div>
+    <div class="kv"><span class="k">Swing low</span><span class="v">${fmt$(f.swing_low)}</span></div>
+    <table style="margin-top:14px"><thead><tr><th>Level</th><th class="right">Price</th></tr></thead>
+    <tbody>${rows||'<tr><td colspan="2" class="empty">No retracements</td></tr>'}</tbody></table>
+    ${f.ote_low && f.ote_high ? `<div class="kv" style="margin-top:14px"><span class="k">OTE Zone</span>
+      <span class="v">${fmt$(f.ote_low)} → ${fmt$(f.ote_high)}</span></div>`:''}
+  </div>`;
+}
+
+function renderHunting(d){
+  const ctx=safe(d,'ctx')||d;
+  const h = ctx.hunting || [];
+  const rows = h.slice(-15).reverse().map(x=>`<tr>
+    <td>${x.time||'—'}</td>
+    <td class="right">${fmt$(x.price)}</td>
+    <td>${x.type||'HUNT'}</td>
+    <td class="right">${fmt$(x.wick_size||x.size)}</td>
+  </tr>`).join('') || '<tr><td colspan="4" class="empty">No SL hunting events yet</td></tr>';
+  $("t-hunting").innerHTML = `<div class="card"><h3>🎯 Stop-Loss Hunting Zones (recent wicks)</h3>
+    <table><thead><tr><th>Time</th><th class="right">Price</th><th>Type</th>
+    <th class="right">Wick size</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+
+function renderMTF(d){
+  const ctx=safe(d,'ctx')||d;
+  const m = ctx.mtf_dict || {};
+  const reg = ctx.regime_info || {};
+  const pat = ctx.patterns || {};
+  $("t-mtf").innerHTML = `<div class="grid-3">
+    <div class="card"><h3>📡 Multi-timeframe</h3>
+      <div class="kv"><span class="k">LTF</span><span class="v">${badge(m.ltf||'—',
+        (m.ltf||'').toLowerCase().includes('bull')?'green':'red')}</span></div>
+      <div class="kv"><span class="k">1H</span><span class="v">${badge(m.h1||'—',
+        (m.h1||'').toLowerCase().includes('bull')?'green':'red')}</span></div>
+      <div class="kv"><span class="k">4H</span><span class="v">${badge(m.h4||'—',
+        (m.h4||'').toLowerCase().includes('bull')?'green':'red')}</span></div>
+    </div>
+    <div class="card"><h3>🌊 Market regime</h3>
+      <div class="kv"><span class="k">Current</span><span class="v">${badge(reg.regime||'—','gold')}</span></div>
+      <div class="kv"><span class="k">ADX</span><span class="v">${(reg.adx||0).toFixed(2)}</span></div>
+      <div class="kv"><span class="k">Hurst</span><span class="v">${(reg.hurst||0).toFixed(3)}</span></div>
+    </div>
+    <div class="card"><h3>📈 Pattern matcher</h3>
+      <div class="kv"><span class="k">Cases</span><span class="v">${pat.cases||0}</span></div>
+      <div class="kv"><span class="k">Bullish</span><span class="v" style="color:var(--green)">${pat.bullish||0}</span></div>
+      <div class="kv"><span class="k">Bearish</span><span class="v" style="color:var(--red)">${pat.bearish||0}</span></div>
+      ${pat.avg_move ? `<div class="kv"><span class="k">Avg move</span><span class="v">${(pat.avg_move*100).toFixed(2)}%</span></div>`:''}
+    </div>
+  </div>`;
+}
+
+function renderSentiment(d){
+  const ctx=safe(d,'ctx')||d;
+  const n = ctx.nlp || {};
+  const headlines = (n.headlines||[]).slice(0,10);
+  const col = n.sentiment==='BULLISH'?'green':n.sentiment==='BEARISH'?'red':'gold';
+  const lis = headlines.map(h=>`<li style="padding:8px 0;border-bottom:1px solid var(--border)">
+    ${typeof h==='string'?h:(h.title||h.headline||h)}</li>`).join('')
+    || '<li class="empty">No headlines</li>';
+  $("t-sentiment").innerHTML = `<div class="card"><h3>📰 News sentiment (FinBERT)</h3>
+    <div class="kv"><span class="k">Sentiment</span><span class="v">${badge(n.sentiment||'NEUTRAL', col)}</span></div>
+    <div class="kv"><span class="k">Score</span><span class="v">${n.score>=0?'+':''}${(n.score||0).toFixed(3)}</span></div>
+    <div class="kv"><span class="k">Headlines analyzed</span><span class="v">${headlines.length}</span></div>
+    <h4 style="margin-top:18px">Latest headlines</h4>
+    <ul style="list-style:none;padding:0">${lis}</ul>
+  </div>`;
+}
+
+function renderDerivatives(d){
+  const ctx=safe(d,'ctx')||d;
+  const dr = ctx.deriv || ctx.derivatives || {};
+  $("t-derivatives").innerHTML = `<div class="grid-2">
+    <div class="card"><h3>💹 Derivatives (perpetual)</h3>
+      <div class="kv"><span class="k">Mark price</span><span class="v">${fmt$(dr.mark_price||dr.mark)}</span></div>
+      <div class="kv"><span class="k">Funding rate</span><span class="v">${dr.funding_rate!=null?(dr.funding_rate*100).toFixed(4)+'%':'—'}</span></div>
+      <div class="kv"><span class="k">Open interest</span><span class="v">${fmt$(dr.open_interest)}</span></div>
+      <div class="kv"><span class="k">Long/Short ratio</span><span class="v">${(dr.ls_ratio||dr.long_short_ratio||1).toFixed(2)}</span></div>
+    </div>
+    <div class="card"><h3>📊 Other context</h3>
+      <div class="kv"><span class="k">Fear &amp; Greed</span><span class="v">${ctx.fear_greed?.value||'—'} / 100</span></div>
+      <div class="kv"><span class="k">Regime</span><span class="v">${badge(ctx.regime||'—','gold')}</span></div>
+    </div>
+  </div>`;
+}
+
+function renderForecast(d){
+  const ctx=safe(d,'ctx')||d;
+  const af = ctx.algo_forecast || {};
+  const pn = ctx.pred_next || {};
+  $("t-forecast").innerHTML = `<div class="grid-2">
+    <div class="card"><h3>🔮 Next candle (ML)</h3>
+      <div class="kv"><span class="k">Direction</span><span class="v">${badge(pn.direction||'?',
+        (pn.direction||'').includes('UP')||(pn.direction||'').includes('BULL')?'green':'red')}</span></div>
+      <div class="kv"><span class="k">Confidence</span><span class="v">${(pn.confidence||0).toFixed(1)}%</span></div>
+    </div>
+    <div class="card"><h3>📉 10-bar algo forecast</h3>
+      <div class="kv"><span class="k">Direction</span><span class="v">${badge(af.direction||'?',
+        (af.direction||'').includes('UP')?'green':'red')}</span></div>
+      <div class="kv"><span class="k">10-bar move</span><span class="v">${(af.total_move_pct||0)>=0?'+':''}${(af.total_move_pct||0).toFixed(2)}%</span></div>
+      <div class="kv"><span class="k">Realized vol</span><span class="v">${(af.realized_vol||0).toFixed(3)}%/bar</span></div>
+    </div>
+  </div>`;
+}
+
+/* ──────── TAB 18 — Predictions (per-model votes summary) ──────── */
+function renderPredictions(d){
+  const ctx = safe(d,'ctx')||d;
+  const cmL = ctx.cm_long||{}, cmS = ctx.cm_short||{};
+  const dec = safe(d,'decision')||{};
+  const tb  = ctx.tb_models||{};
+  const af  = ctx.algo_forecast || {};
+  const pn  = ctx.pred_next || {};
+
+  // Build summary of all model votes
+  function votesummary(cm, label, side){
+    const preds = cm.preds || {};
+    const probs = cm.probs || {};
+    const wf    = cm.wf_accs || {};
+    const dl    = cm.dl_individual || {};
+
+    if(!Object.keys(preds).length && !Object.keys(dl).length){
+      return `<div class="card"><h3>${label}</h3><div class="empty">No predictions yet — train this pair first</div></div>`;
+    }
+
+    let yes=0, no=0;
+    const yesLabel = side==='SHORT' ? '▲ SHORT YES' : '▲ LONG YES';
+    const noLabel  = side==='SHORT' ? '▼ SHORT NO'  : '▼ LONG NO';
+    const clsRows = Object.entries(preds).map(([k,p])=>{
+      if(k==='stack') return '';
+      p===1?yes++:no++;
+      return `<tr><td>${k.toUpperCase()}</td>
+        <td class="center">${p===1?badge(yesLabel,'green'):badge(noLabel,'red')}</td>
+        <td class="right">${((probs[k]||0)*100).toFixed(1)}%</td>
+        <td class="right">${((wf[k]||0)*100).toFixed(1)}%</td></tr>`;
+    }).filter(Boolean).join('');
+
+    let dlYes=0, dlNo=0;
+    const dlRows = Object.entries(dl).map(([n,p])=>{
+      p>=0.5?dlYes++:dlNo++;
+      return `<tr><td>${n.toUpperCase()}</td>
+        <td class="center">${p>=0.5?badge(yesLabel,'green'):badge(noLabel,'red')}</td>
+        <td class="right">${(p*100).toFixed(1)}%</td>
+        <td class="right">—</td></tr>`;
+    }).join('');
+
+    const stackBull = (cm.stack_bull||0)*100;
+    const stackColor = stackBull >= 60 ? 'green' : stackBull <= 40 ? 'red' : 'gold';
+    const stackName = side==='SHORT' ? 'SHORT-positive stack' : 'LONG-positive stack';
+
+    return `<div class="card"><h3>${label}</h3>
+      <p style="color:var(--muted);font-size:12px">YES means this committee's side is positive; it is not a universal market L/S label.</p>
+      <div class="kv"><span class="k">${stackName}</span>
+        <span class="v">${badge(stackBull.toFixed(1)+'%', stackColor)}</span></div>
+      <div class="kv"><span class="k">Classical votes</span>
+        <span class="v"><b style="color:var(--green)">${yes} YES</b> · <b style="color:var(--red)">${no} NO</b></span></div>
+      <div class="kv"><span class="k">DL votes</span>
+        <span class="v"><b style="color:var(--green)">${dlYes} YES</b> · <b style="color:var(--red)">${dlNo} NO</b></span></div>
+      <table style="margin-top:14px"><thead><tr>
+        <th>Model</th><th class="center">Signal</th><th class="right">Conf</th><th class="right">WF acc</th>
+      </tr></thead><tbody>
+        ${clsRows || '<tr><td colspan="4" class="empty">No classical models</td></tr>'}
+        ${dlRows  || ''}
+      </tbody></table>
+    </div>`;
+  }
+
+  // Final verdict block
+  const verdict = dec.verdict || 'NO_TRADE';
+  const vColor = verdict.includes('GO_LONG') ? 'green' :
+                  verdict.includes('GO_SHORT') ? 'red' :
+                  verdict.includes('WATCH') ? 'gold' : 'cyan';
+
+  const headHtml = `<div class="card" style="margin-bottom:16px">
+    <h3>🎲 Final committee decision</h3>
+    <div class="grid-3">
+      <div class="kv"><span class="k">VERDICT</span>
+        <span class="v" style="font-size:18px">${badge(verdict, vColor)}</span></div>
+      <div class="kv"><span class="k">Direction</span>
+        <span class="v">${badge(dec.chosen_direction || ctx.direction || '—',
+          (dec.chosen_direction||'')==='LONG'?'green':'red')}</span></div>
+      <div class="kv"><span class="k">Win probability</span>
+        <span class="v">${((dec.chosen_win_prob||0)*100).toFixed(1)}%</span></div>
+      <div class="kv"><span class="k">Confluence score</span>
+        <span class="v">${((dec.chosen_score||0)*100).toFixed(0)}%</span></div>
+      <div class="kv"><span class="k">LONG win prob (model)</span>
+        <span class="v">${((tb.long_win_prob||0)*100).toFixed(1)}%</span></div>
+      <div class="kv"><span class="k">SHORT win prob (model)</span>
+        <span class="v">${((tb.short_win_prob||0)*100).toFixed(1)}%</span></div>
+    </div>
+    ${(dec.chosen_vetoes||[]).length ? `<div style="margin-top:14px;color:var(--red)">
+      <b>Vetoes blocking trade:</b><br>${(dec.chosen_vetoes||[]).map(v=>'✗ '+v).join('<br>')}
+    </div>` : ''}
+  </div>`;
+
+  // Quick forecast row
+  const fcHtml = `<div class="card" style="margin-bottom:16px">
+    <h3>🔮 Forecasts</h3>
+    <div class="grid-3">
+      <div class="kv"><span class="k">Next candle (ML)</span>
+        <span class="v">${badge(pn.direction||'?',
+          (pn.direction||'').includes('UP')||(pn.direction||'').includes('BULL')?'green':'red')}
+        ${(pn.confidence||0).toFixed(1)}%</span></div>
+      <div class="kv"><span class="k">10-bar algo</span>
+        <span class="v">${badge(af.direction||'?',
+          (af.direction||'').includes('UP')?'green':'red')}
+        ${(af.total_move_pct||0)>=0?'+':''}${(af.total_move_pct||0).toFixed(2)}%</span></div>
+      <div class="kv"><span class="k">Sentiment</span>
+        <span class="v">${badge((ctx.nlp||{}).sentiment||'?',
+          ((ctx.nlp||{}).sentiment||'')==='BULLISH'?'green':
+          ((ctx.nlp||{}).sentiment||'')==='BEARISH'?'red':'gold')}</span></div>
+    </div>
+  </div>`;
+
+  $("t-predictions").innerHTML = headHtml + fcHtml + `<div class="grid-2">
+    ${votesummary(cmL, '🟢 LONG committee','LONG')}
+    ${votesummary(cmS, '🔴 SHORT committee','SHORT')}
+  </div>`;
+}
+
+/* ──────── TAB 19 — Trade Setup (clean trade card with entry/SL/TP) ──────── */
+
+function renderModelOutlook(d){
+  const ctx = safe(d,'ctx')||d;
+  const mo = ctx.model_market_outlook || {};
+  if(!mo.available){
+    $("t-modeloutlook").innerHTML = `<div class="card"><h3>🧠 Model Outlook</h3><p class="empty">Unavailable: ${mo.reason||'no model outlook'}</p></div>`;
+    return;
+  }
+  const dir = mo.overall_direction || 'NEUTRAL';
+  const col = dir==='LONG'?'green':dir==='SHORT'?'red':'gold';
+  const horizons = mo.horizon_estimates || {};
+  const hrow = Object.entries(horizons).map(([k,v])=>`<tr><td>${k.replace('_',' ')}</td><td class="right ${v.move_pct>=0?'up':'down'}">${v.move_pct>=0?'+':''}${Number(v.move_pct||0).toFixed(3)}%</td><td class="right">${fmt$(v.price)}</td></tr>`).join('');
+  const votes = (mo.votes||[]).slice().sort((a,b)=>(b.confidence||0)-(a.confidence||0));
+  const rows = votes.map(v=>`<tr><td>${v.source}</td><td>${v.model}</td><td>${badge(v.direction, v.direction==='LONG'?'green':v.direction==='SHORT'?'red':'gold')}</td><td class="right">${((v.confidence||0)*100).toFixed(1)}%</td><td>${v.note||''}</td></tr>`).join('');
+  $("t-modeloutlook").innerHTML = `<div class="card">
+    <h3>🧠 Setup-Agnostic Model Outlook</h3>
+    <p style="color:var(--muted)">${mo.note||'This is not a trade setup. It shows what models think market may do independent of entry/SL/TP.'}</p>
+    <div class="grid-3" style="margin-top:12px">
+      <div class="kv"><span class="k">Overall model lean</span><span class="v">${badge(dir,col)}</span></div>
+      <div class="kv"><span class="k">Direction edge</span><span class="v">${((mo.direction_edge||0)*100).toFixed(1)}%</span></div>
+      <div class="kv"><span class="k">Summary</span><span class="v">${mo.summary||''}</span></div>
+      <div class="kv"><span class="k">LONG share</span><span class="v">${((mo.long_share||0)*100).toFixed(1)}%</span></div>
+      <div class="kv"><span class="k">SHORT share</span><span class="v">${((mo.short_share||0)*100).toFixed(1)}%</span></div>
+      <div class="kv"><span class="k">NEUTRAL share</span><span class="v">${((mo.neutral_share||0)*100).toFixed(1)}%</span></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px"><h3>Expected move by horizon</h3>
+    <table><thead><tr><th>Horizon</th><th class="right">Move</th><th class="right">Est. price</th></tr></thead><tbody>${hrow || '<tr><td colspan="3" class="empty">No horizon estimates</td></tr>'}</tbody></table>
+  </div>
+  <div class="card" style="margin-top:14px"><h3>Model-by-model outlook votes</h3>
+    <table><thead><tr><th>Source</th><th>Model</th><th>Lean</th><th class="right">Confidence</th><th>Note</th></tr></thead><tbody>${rows || '<tr><td colspan="5" class="empty">No model votes</td></tr>'}</tbody></table>
+  </div>`;
+}
+
+function renderTradeSetup(d){
+  const ctx = safe(d,'ctx')||d;
+  const s   = ctx.setup||{};
+  const tp  = ctx.tp_sl_prob||{};
+  const tb  = ctx.tb_models||{};
+  const dec = safe(d,'decision')||{};
+  const price = ctx.price || 0;
+
+  if(!s.valid){
+    $("t-tradesetup").innerHTML = `<div class="card" style="border:2px solid var(--red)">
+      <h3 style="color:var(--red)">🚫 No valid trade setup</h3>
+      <p>${s.reason || 'Setup did not pass validation (likely missing S/R or risk too high).'}</p>
+      <p style="color:var(--muted);margin-top:14px">
+        ${dec.verdict ? `Verdict: <b>${dec.verdict}</b> · ${dec.verdict_text||''}` : ''}
+      </p>
+    </div>`;
+    return;
+  }
+
+  const dir = s.direction;
+  const isLong = dir === 'LONG';
+  const dirColor = isLong ? 'green' : 'red';
+  const tbP = isLong ? tb.long_win_prob : tb.short_win_prob;
+  const rr1 = s.rr1 || 0;
+  const rr2 = s.rr2 || rr1*1.5;
+  const ev = tbP ? (tbP*rr1 - (1-tbP)) : 0;
+  const verdict = dec.verdict || 'NO_TRADE';
+  const verdictColor = verdict.includes('GO_') ? (isLong?'green':'red') :
+                        verdict.includes('WATCH') ? 'gold' : 'cyan';
+
+  const cand = ctx.chosen_candidate || ctx.setup_candidate || {};
+  const cstatus = cand.status || (verdict.includes('GO_') ? 'TRADE_NOW' : 'NO_TRADE');
+  const title = cstatus === 'TRADE_NOW' ? (isLong?'🟢 GO LONG':'🔴 GO SHORT') :
+                cstatus === 'WATCH' ? (isLong?'🟡 WATCH LONG SETUP':'🟡 WATCH SHORT SETUP') :
+                cstatus === 'BLOCKED_TOO_LOW' ? '🚫 BLOCKED — SCORE TOO LOW' :
+                '⏸ WAIT — NO CLEAN FULL SETUP';
+  const borderColor = cstatus === 'TRADE_NOW' ? dirColor : cstatus === 'WATCH' ? 'gold' : 'cyan';
+  // Big trade card
+  const cardHtml = `
+    <div class="card" style="border:2px solid var(--${borderColor})">
+      <div style="text-align:center;padding:16px 0;border-bottom:1px solid var(--border)">
+        <div style="font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:2px">
+          ${ctx.symbol||'—'} @ ${ctx.tf_label||'—'} · current ${fmt$(price)}
+        </div>
+        <div style="font-size:32px;font-weight:700;margin-top:8px;color:var(--${dirColor})">
+          ${title}
+        </div>
+        <div style="margin-top:6px">${badge(verdict, verdictColor)}
+          ${badge((s.quality||'STANDARD'), s.quality==='HIGH'?'green':'gold')}</div>
+        <div style="color:var(--muted);font-size:13px;margin-top:6px">${dec.verdict_text||''}</div>
+      </div>
+      <div class="grid-3" style="margin-top:18px">
+        <div class="kv"><span class="k">ENTRY</span>
+          <span class="v" style="color:var(--gold);font-size:18px">${fmt$(s.entry)}</span></div>
+        <div class="kv"><span class="k">STOP LOSS</span>
+          <span class="v" style="color:var(--red);font-size:18px">${fmt$(s.sl)}</span>
+        </div>
+        <div class="kv"><span class="k">TP1 (50% close)</span>
+          <span class="v" style="color:var(--green);font-size:18px">${fmt$(s.tp1)}</span></div>
+        <div class="kv"><span class="k">TP2 (30% close)</span>
+          <span class="v" style="color:var(--green)">${fmt$(s.tp2)}</span></div>
+        ${s.tp3 ? `<div class="kv"><span class="k">TP3 (20% close)</span>
+          <span class="v" style="color:var(--green)">${fmt$(s.tp3)}</span></div>` : ''}
+        <div class="kv"><span class="k">Risk per trade</span>
+          <span class="v">${fmt$(s.risk)}</span></div>
+      </div>
+      <div class="grid-3" style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+        <div class="kv"><span class="k">Risk:Reward (TP1)</span>
+          <span class="v">1 : ${rr1.toFixed(2)}</span></div>
+        <div class="kv"><span class="k">Risk:Reward (TP2)</span>
+          <span class="v">1 : ${rr2.toFixed(2)}</span></div>
+        <div class="kv"><span class="k">SL distance</span>
+          <span class="v">${(s.sl_dist_atr||0).toFixed(2)}× ATR</span></div>
+        <div class="kv"><span class="k">P(hit TP1)</span>
+          <span class="v" style="color:var(--green)">${(tp.tp1_prob||0).toFixed(1)}%</span></div>
+        <div class="kv"><span class="k">P(hit SL)</span>
+          <span class="v" style="color:var(--red)">${(tp.sl_prob||0).toFixed(1)}%</span></div>
+        <div class="kv"><span class="k">Expected R</span>
+          <span class="v ${ev>=0?'up':'down'}">${ev>=0?'+':''}${ev.toFixed(3)}R</span></div>
+      </div>
+    </div>`;
+
+  // Conditions/checklist
+  const checks = [
+    {label:'Setup is valid',           pass: s.valid},
+    {label:'Win prob > 50%',           pass: tbP > 0.5},
+    {label:'Expected R positive',      pass: ev > 0},
+    {label:'Risk:Reward ≥ 1.5',        pass: rr1 >= 1.5},
+    {label:'No vetoes blocking trade', pass: (dec.chosen_vetoes||[]).length === 0},
+    {label:'Confluence ≥ 60%',         pass: (dec.chosen_score||0) >= 0.6},
+  ];
+  const checkHtml = `<div class="card" style="margin-top:16px">
+    <h3>✅ Trade-readiness checklist</h3>
+    ${checks.map(c=>`<div class="kv">
+      <span class="k">${c.pass?'✅':'❌'} ${c.label}</span>
+      <span class="v">${c.pass?badge('PASS','green'):badge('FAIL','red')}</span>
+    </div>`).join('')}
+  </div>`;
+
+  // Vetoes if any
+  const vetoHtml = (dec.chosen_vetoes||[]).length ? `<div class="card" style="margin-top:16px;border:2px solid var(--red)">
+    <h3 style="color:var(--red)">🚫 Trade-blocking vetoes</h3>
+    ${(dec.chosen_vetoes||[]).map(v=>`<div class="kv">
+      <span class="k">✗</span><span class="v">${v}</span></div>`).join('')}
+  </div>` : '';
+
+  $("t-tradesetup").innerHTML = cardHtml + checkHtml + vetoHtml;
+}
+
+
+function renderSmallMode(d){
+  const ctx = safe(d,'ctx')||d;
+  const sm = ctx.small_mode_forecast || {};
+  const adv = ctx.small_setup_advice || {};
+  const cand = ctx.chosen_candidate || ctx.setup_candidate || {};
+  const warnings = cand.warnings || [];
+  let html = `<div class="card"><h3>🧭 Small Mode / Wait Mode</h3>`;
+  html += `<div class="grid-3">
+    <div class="kv"><span class="k">Market mode</span><span class="v">${badge(ctx.market_mode||'—', ctx.market_mode==='FULL_SETUP'?'green':ctx.market_mode==='SMALL_MODE'?'gold':'cyan')}</span></div>
+    <div class="kv"><span class="k">Candidate status</span><span class="v">${badge(cand.status||'—', cand.status==='TRADE_NOW'?'green':cand.status==='WATCH'?'gold':'cyan')}</span></div>
+    <div class="kv"><span class="k">Precision score</span><span class="v">${(cand.entry_precision_score||0).toFixed(1)}</span></div>
+  </div>`;
+  if(sm.available){
+    const dirColor = (sm.final_pct_from_now||0) >= 0 ? 'green' : 'red';
+    html += `<div class="card" style="margin-top:14px;border:1px solid var(--${dirColor})">
+      <h3>Next 3–4 candles micro forecast</h3>
+      <p>${sm.summary||''}</p>
+      <div class="grid-3">
+        <div class="kv"><span class="k">Path</span><span class="v">${badge(sm.path||'?', dirColor)}</span></div>
+        <div class="kv"><span class="k">Move by candle 4</span><span class="v ${dirColor==='green'?'up':'down'}">${(sm.final_pct_from_now||0).toFixed(3)}%</span></div>
+        <div class="kv"><span class="k">Aligns with setup</span><span class="v">${sm.aligns_with_setup?'YES':'NO'}</span></div>
+        <div class="kv"><span class="k">Forecast source</span><span class="v">${sm.source||'—'}</span></div>
+      </div>
+      <table style="margin-top:12px"><thead><tr><th>Candle</th><th>Dir</th><th class="right">Close</th><th class="right">% from now</th></tr></thead><tbody>
+        ${(sm.steps||[]).map(x=>`<tr><td>${x.candle}</td><td>${x.direction}</td><td class="right">${fmt$(x.close)}</td><td class="right">${(x.pct_from_now||0).toFixed(3)}%</td></tr>`).join('')}
+      </tbody></table>
+      <p style="color:var(--muted);font-size:12px;margin-top:10px">${sm.note||'Micro forecast only — not a full trade signal.'}</p>
+    </div>`;
+  } else {
+    html += `<p class="empty">No reliable small-mode forecast: ${sm.reason||'unavailable'}</p>`;
+  }
+  if(adv.available){
+    html += `<div class="card" style="margin-top:14px;border:1px solid var(--gold)">
+      <h3>⚠ Micro-only idea</h3>
+      <p>${adv.reason||''}</p>
+      <div class="kv"><span class="k">Direction</span><span class="v">${badge(adv.direction||'—', adv.direction==='LONG'?'green':'red')}</span></div>
+      <div class="kv"><span class="k">Expected small move</span><span class="v">${adv.max_expected_move_pct}%</span></div>
+      <p style="color:var(--gold)">${adv.warning||''}</p>
+    </div>`;
+  } else if(ctx.market_mode==='WAIT'){
+    html += `<div class="card" style="margin-top:14px;border:1px solid var(--cyan)"><h3>⏸ Wait / Stay Out</h3><p>${adv.reason||'No clean full setup and no meaningful short-term model move.'}</p></div>`;
+  }
+  if(warnings.length){
+    html += `<div class="card" style="margin-top:14px"><h3>Why full setup is blocked/waiting</h3>${warnings.slice(0,10).map(w=>`<div class="kv"><span class="k">✗</span><span class="v">${w}</span></div>`).join('')}</div>`;
+  }
+  html += `</div>`;
+  $("t-smallmode").innerHTML = html;
+}
+
+/* ──────── Main loaders ──────── */
+function renderAll(d){
+  // v25.7: shared helper so loadAll() and loadSelectedPair() share rendering
+  window._lastDashboard = d;
+  try { renderHero(d); } catch(e){}
+  try { if(chart) refreshChartData(); } catch(e){}
+  try { renderSetup(d); } catch(e){}
+  try { renderModels(d); } catch(e){}
+  try { renderDL(d); } catch(e){}
+  try { renderAdvanced(d); } catch(e){}
+  try { renderStructure(d); } catch(e){}
+  try { renderZones(d); } catch(e){}
+  try { renderBOS(d); } catch(e){}
+  try { renderFib(d); } catch(e){}
+  try { renderHunting(d); } catch(e){}
+  try { renderMTF(d); } catch(e){}
+  try { renderSentiment(d); } catch(e){}
+  try { renderDerivatives(d); } catch(e){}
+  try { renderForecast(d); } catch(e){}
+  try { renderPredictions(d); } catch(e){}
+  try { renderModelOutlook(d); } catch(e){}
+  try { renderTradeSetup(d); } catch(e){}
+  try { renderSmallMode(d); } catch(e){}
+  try { renderBacktest(); } catch(e){}
+  try { renderStatus(); } catch(e){}
+}
+
+async function loadAll(){
+  const d = await readJson("dashboard_data");
+  if(!d){
+    $("hdr-sub").textContent = "(no dashboard data yet — train a pair first)";
+    return;
+  }
+  renderAll(d);
+}
+
+/* ──────── Initial bootstrap ──────── */
+window.addEventListener('load', () => {
+  // If collect_all.py inlined data into this HTML, skip the setup overlay
+  if(window.__EMBED_DASHBOARD_DATA__){
+    $("setup-overlay") && ($("setup-overlay").style.display = "none");
+    if(typeof renderAll === "function") renderAll(window.__EMBED_DASHBOARD_DATA__);
+  } else if(showSetupIfNeeded()) return;
+  $("backend-url").textContent = window.location.origin;
+  loadAll();
+  refreshFastModePicker();
+  refreshPairPicker();
+  setInterval(loadAll, 30000);
+  setInterval(refreshFastModePicker, 60000);
+});
+window.addEventListener('resize', ()=>{if(chart) chart.resize(document.getElementById('chart-container').offsetWidth,460)});
+</script>
+</body>
+</html>
