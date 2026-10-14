@@ -1,0 +1,998 @@
+{
+  "symbol": "BTC-USD",
+  "tf_label": "1h",
+  "price": 83519.46,
+  "best_setup": {
+    "direction": "LONG",
+    "status": "BLOCKED_TOO_LOW",
+    "message": "Setup score/precision too low \u2014 stay out completely",
+    "probability": 0.4058,
+    "other_probability": 0.3414,
+    "baseline_probability": 0.3712,
+    "live_edge_over_baseline": 0.0346,
+    "edge": 0.0644,
+    "model_agreement": 0.1111,
+    "model_vote_summary": {
+      "direction": "LONG",
+      "classical_support": 1,
+      "classical_total": 9,
+      "dl_support": 0,
+      "dl_total": 0,
+      "total_support": 1,
+      "total_models": 9,
+      "agreement": 0.1111,
+      "committee_win_probability": 0.4058,
+      "summary": "1/9 models support LONG (classic 1/9, DL 0/0)"
+    },
+    "global_model_vote": {
+      "direction": "LONG",
+      "long_votes": 11.0,
+      "short_votes": 9.0,
+      "total_votes": 20.0,
+      "chosen_votes": 11.0,
+      "other_votes": 9.0,
+      "long_share": 0.55,
+      "short_share": 0.45,
+      "chosen_share": 0.55,
+      "edge_share": 0.1,
+      "majority_strong": true,
+      "committee_direction": "LONG",
+      "committee_edge": 0.0676,
+      "long_edge_over_baseline": 0.0346,
+      "short_edge_over_baseline": -0.0329,
+      "long_baseline": 0.3712,
+      "short_baseline": 0.3744,
+      "committee_strong": true,
+      "details": [
+        {
+          "group": "classical",
+          "name": "LONG.et",
+          "vote": "SHORT",
+          "weight": 1.0
+        },
+        {
+          "group": "classical",
+          "name": "LONG.lgb",
+          "vote": "SHORT",
+          "weight": 1.0
+        },
+        {
+          "group": "classical",
+          "name": "LONG.mlp",
+          "vote": "SHORT",
+          "weight": 1.0
+        },
+        {
+          "group": "classical",
+          "name": "LONG.hgb",
+          "vote": "SHORT",
+          "weight": 1.0
+        },
+        {
+          "group": "classical",
+          "name": "LONG.cat",
+          "vote": "SHORT",
+          "weight": 1.0
+        },
+        {
+          "group": "classical",
+          "name": "LONG.rf",
+          "vote": "SHORT",
+          "weight": 1.0
+        },
+        {
+          "group": "classical",
+          "name": "LONG.lr",
+          "vote": "SHORT",
+          "weight": 1.0
+        },
+        {
+          "group": "classical",
+          "name": "LONG.xgb",
+          "vote": "SHORT",
+          "weight": 1.0
+        },
+        {
+          "group": "classical",
+          "name": "LONG.knn",
+          "vote": "LONG",
+          "weight": 1.0
+        },
+        {
+          "group": "classical",
+          "name": "SHORT.et",
+          "vote": "LONG",
+          "weight": 1.0
+        },
+        {
+          "group": "classical",
+          "name": "SHORT.knn",
+          "vote": "SHORT",
+          "weight": 1.0
+        },
+        {
+          "group": "classical",
+          "name": "SHORT.mlp",
+          "vote": "LONG",
+          "weight": 1.0
+        },
+        {
+          "group": "classical",
+          "name": "SHORT.xgb",
+          "vote": "LONG",
+          "weight": 1.0
+        },
+        {
+          "group": "classical",
+          "name": "SHORT.hgb",
+          "vote": "LONG",
+          "weight": 1.0
+        },
+        {
+          "group": "classical",
+          "name": "SHORT.rf",
+          "vote": "LONG",
+          "weight": 1.0
+        },
+        {
+          "group": "classical",
+          "name": "SHORT.cat",
+          "vote": "LONG",
+          "weight": 1.0
+        },
+        {
+          "group": "classical",
+          "name": "SHORT.lr",
+          "vote": "LONG",
+          "weight": 1.0
+        },
+        {
+          "group": "classical",
+          "name": "SHORT.lgb",
+          "vote": "LONG",
+          "weight": 1.0
+        },
+        {
+          "group": "committee_stack",
+          "name": "stack_edge_over_baseline",
+          "vote": "LONG",
+          "weight": 2.0
+        }
+      ],
+      "summary": "ALL-MODEL MAJORITY: LONG (11/20 weighted votes, 55.0%)"
+    },
+    "current_market_similarity": {
+      "available": true,
+      "similarity_score": 0.5821,
+      "winner_distance": 0.7179,
+      "loser_distance": 0.7531,
+      "winner_vs_loser_advantage": 0.0352,
+      "closer_to": "WINNERS",
+      "n_features": 82,
+      "n_win_profile": 30147,
+      "n_loss_profile": 51078
+    },
+    "current_analog_pattern": {
+      "available": true,
+      "k": 200,
+      "reference_rows": 81225,
+      "rows_after_filters": 33718,
+      "rows_after_time_filter": 81225,
+      "rows_same_regime": 33718,
+      "reference_features": 82,
+      "analog_win_rate": 0.3953,
+      "analog_win_rate_unweighted": 0.38,
+      "nearest_mean_distance": 0.5001,
+      "nearest_min_distance": 0.3457,
+      "metric": "euclidean",
+      "current_regime": "RANGING",
+      "strict_regime": true,
+      "recency_weighted": true,
+      "recency_half_life_days": 365.0,
+      "time_cutoff_ns": 1791781200000000000
+    },
+    "current_feature_drift": {
+      "available": true,
+      "level": "extreme",
+      "reference_rows": 81225,
+      "current_rows": 500,
+      "n_features": 82,
+      "psi_mean": 1.33774,
+      "psi_max": 27.63102,
+      "features_drifted": 35,
+      "features_extreme": 24,
+      "thresholds": {
+        "watch": 0.1,
+        "drift": 0.25,
+        "extreme": 0.5
+      },
+      "top_features": [
+        {
+          "feature": "nlp",
+          "psi": 27.63102,
+          "mean_shift_z": 83333335.8169,
+          "ref_mean": 0.0,
+          "cur_mean": -0.08333,
+          "ref_std": 0.0,
+          "cur_std": 0.0
+        },
+        {
+          "feature": "vwap_dist",
+          "psi": 12.4344,
+          "mean_shift_z": 0.8006,
+          "ref_mean": 0.23039,
+          "cur_mean": -0.33123,
+          "ref_std": 0.70153,
+          "cur_std": 0.00858
+        },
+        {
+          "feature": "price_fracdiff",
+          "psi": 8.67274,
+          "mean_shift_z": 1.4945,
+          "ref_mean": 0.27786,
+          "cur_mean": 1.3881,
+          "ref_std": 0.74288,
+          "cur_std": 0.2264
+        },
+        {
+          "feature": "hasbrouck_impact",
+          "psi": 8.55091,
+          "mean_shift_z": 0.1947,
+          "ref_mean": 2.33418,
+          "cur_mean": -0.45358,
+          "ref_std": 14.32053,
+          "cur_std": 0.06437
+        },
+        {
+          "feature": "funding_rate",
+          "psi": 6.10746,
+          "mean_shift_z": 0.2843,
+          "ref_mean": 0.38115,
+          "cur_mean": -0.14847,
+          "ref_std": 1.86274,
+          "cur_std": 0.24831
+        },
+        {
+          "feature": "funding_ann",
+          "psi": 6.10746,
+          "mean_shift_z": 0.2843,
+          "ref_mean": 0.38115,
+          "cur_mean": -0.14847,
+          "ref_std": 1.86274,
+          "cur_std": 0.24831
+        },
+        {
+          "feature": "atr_pct",
+          "psi": 5.10347,
+          "mean_shift_z": 0.684,
+          "ref_mean": 0.28369,
+          "cur_mean": -0.52437,
+          "ref_std": 1.18142,
+          "cur_std": 0.29455
+        },
+        {
+          "feature": "fear_greed",
+          "psi": 3.7963,
+          "mean_shift_z": 1.6196,
+          "ref_mean": 0.00216,
+          "cur_mean": 0.18492,
+          "ref_std": 0.11284,
+          "cur_std": 0.05002
+        },
+        {
+          "feature": "gap_open",
+          "psi": 3.27035,
+          "mean_shift_z": 0.0012,
+          "ref_mean": 1.89765,
+          "cur_mean": 0.00026,
+          "ref_std": 1543.1427,
+          "cur_std": 2.03394
+        },
+        {
+          "feature": "garch_vol_proxy",
+          "psi": 2.99103,
+          "mean_shift_z": 0.5281,
+          "ref_mean": 0.31385,
+          "cur_mean": -0.41649,
+          "ref_std": 1.38285,
+          "cur_std": 0.30873
+        },
+        {
+          "feature": "bb_width",
+          "psi": 2.70236,
+          "mean_shift_z": 0.4923,
+          "ref_mean": 0.33357,
+          "cur_mean": -0.29643,
+          "ref_std": 1.27983,
+          "cur_std": 0.30124
+        },
+        {
+          "feature": "amihud_illiquidity",
+          "psi": 2.62187,
+          "mean_shift_z": 0.0886,
+          "ref_mean": 15.58543,
+          "cur_mean": -0.09796,
+          "ref_std": 176.9738,
+          "cur_std": 0.16845
+        }
+      ]
+    },
+    "htf_alignment": {
+      "support": 3,
+      "against": 0,
+      "total": 3,
+      "raw": [
+        "bullish",
+        "bullish",
+        "bullish"
+      ],
+      "ok": true
+    },
+    "setup_score": 46.7,
+    "entry_precision_score": 19.1,
+    "grade": "D",
+    "warnings": [
+      "RR 4.95 > 4.50 (may be unrealistic)",
+      "setup score 46.7 < 58.0",
+      "committee probability 40.6% < 55.5%",
+      "analog pattern win-rate 39.5% < 58.0%",
+      "feature drift extreme: PSI mean=1.338, max=27.631",
+      "model agreement 11.1% < 53.0%",
+      "all-model majority weak 55.0% < 58.0%",
+      "guard/daily_loss_killswitch: equity not reported \u2014 fail-closed",
+      "guard/freshness: Stale data: 3003s old > 120s",
+      "guard/confidence: Confidence 46.7 < 62 \u2013 BLOCKED",
+      "entry precision score 19.1 < 61.0"
+    ],
+    "setup": {
+      "direction": "LONG",
+      "entry": 83519.46,
+      "entry_zone_low": 83441.256607,
+      "entry_zone_high": 83550.741357,
+      "sl": 82890.204414,
+      "tp1": 84528.98,
+      "tp2": 85318.0,
+      "tp3": 86130.45,
+      "rr1": 1.6,
+      "rr2": 2.86,
+      "rr3": 4.15,
+      "avg_rr_partial_close": 4.95,
+      "risk": 629.255586,
+      "risk_pct": 0.7534,
+      "round_trip_R": 0.2639,
+      "quality": "HIGH",
+      "valid": true,
+      "fallback_used": false,
+      "reason": "Valid 3.2:1 R/R | TP3=8.2:1 | avg_partial=5.0:1 | SL \u2265 1\u00d7ATR away",
+      "partial_close_plan": "50% @ TP1 \u00b7 30% @ TP2 \u00b7 20% @ TP3 (trailing)",
+      "invalidation": "If price closes beyond $83,203.017985 (the SL), the LONG thesis is invalidated. Also invalidated if structure shifts: a clean opposite-side break of structure or close beyond the entry zone with strong volume.",
+      "atr_used": 312.813571,
+      "sl_dist_atr": 2.01,
+      "tp1_dist_atr": 3.23,
+      "original_sl": 83203.017985,
+      "smart_sl_candidates": {
+        "original_struct": 83203.017985,
+        "atr_buffer": 82890.204414,
+        "wick_buffer": 82887.067585,
+        "vp_low_node": 82353.794443
+      },
+      "smart_sl_chosen": "MEDIAN_SAFE",
+      "smart_sl_aggressiveness": "balanced",
+      "rr_1": 1.6,
+      "rr_2": 2.86,
+      "rr_3": 4.15,
+      "smart_sl_reason": "Smart-SL widened from 83203.017985 \u2192 82890.204414 (2.01\u00d7 ATR) \u00b7 chosen=atr_buffer \u00b7 signals=['original_struct', 'atr_buffer', 'wick_buffer', 'vp_low_node']"
+    },
+    "geometry": {
+      "entry": 83519.46,
+      "sl": 82890.204414,
+      "tp1": 84528.98,
+      "rr": 4.95,
+      "risk_pct": 0.7534239158155468
+    },
+    "confidence": {
+      "score": 46.7,
+      "grade": "D",
+      "pass": false,
+      "threshold": 58,
+      "components": {
+        "committee_edge": 6.4,
+        "dl_agreement": 10.0,
+        "nn_consensus": 7.5,
+        "confluence": 13.7,
+        "regime_fit": 3.0,
+        "backtest_oos": 3.0,
+        "risk_reward": 3.0,
+        "spread_penalty": 0.0
+      },
+      "inputs": {
+        "p_long": 0.4058,
+        "p_short": 0.3414,
+        "edge": 0.0644,
+        "rr": 1.6,
+        "regime": "RANGING",
+        "bt_wr": 0.5,
+        "bt_trades": 0
+      },
+      "reasons": [
+        "Weak committee edge 6.4%"
+      ],
+      "direction": "LONG"
+    },
+    "guard": {
+      "allow_trade": false,
+      "killed": false,
+      "kill_reason": "",
+      "daily_loss_pct": 0.0,
+      "checks": [
+        {
+          "check": "daily_loss_killswitch",
+          "ok": false,
+          "msg": "equity not reported \u2014 fail-closed"
+        },
+        {
+          "check": "freshness",
+          "ok": false,
+          "msg": "Stale data: 3003s old > 120s"
+        },
+        {
+          "check": "confidence",
+          "ok": false,
+          "msg": "Confidence 46.7 < 62 \u2013 BLOCKED"
+        },
+        {
+          "check": "risk",
+          "ok": true,
+          "msg": "risk ok"
+        },
+        {
+          "check": "committee_edge",
+          "ok": true,
+          "msg": "edge=6.4%"
+        }
+      ],
+      "timestamp": "2026-10-14T05:50:02.762873Z"
+    },
+    "liquidity": {
+      "valentini_vli": 0.0,
+      "valentini_vld": 0.0,
+      "valentini_vls": 0.0,
+      "valentini_vmfi": 0.0,
+      "amihud_illiquidity": 0.0,
+      "kyles_lambda": 0.0,
+      "rolls_spread": 0.0,
+      "corwin_schultz_spread": 0.0,
+      "garman_klass_vol": 0.0
+    },
+    "microstructure": {
+      "valentini_vli": 0.0,
+      "valentini_vld": 0.0,
+      "valentini_vls": 0.0,
+      "valentini_vmfi": 0.0,
+      "amihud_illiquidity": 0.0,
+      "kyles_lambda": 0.0,
+      "rolls_spread": 0.0,
+      "corwin_schultz_spread": 0.0,
+      "garman_klass_vol": 0.0
+    },
+    "action_text": "BLOCKED \u2014 score too low",
+    "best_setup_gate": {
+      "mode": "elite",
+      "score": 19.1,
+      "threshold": 70.0,
+      "passed": false
+    }
+  },
+  "all_model_majority": {
+    "direction": "LONG",
+    "long_votes": 11.0,
+    "short_votes": 9.0,
+    "total_votes": 20.0,
+    "chosen_votes": 11.0,
+    "other_votes": 9.0,
+    "long_share": 0.55,
+    "short_share": 0.45,
+    "chosen_share": 0.55,
+    "edge_share": 0.1,
+    "majority_strong": true,
+    "committee_direction": "LONG",
+    "committee_edge": 0.0676,
+    "long_edge_over_baseline": 0.0346,
+    "short_edge_over_baseline": -0.0329,
+    "long_baseline": 0.3712,
+    "short_baseline": 0.3744,
+    "committee_strong": true,
+    "details": [
+      {
+        "group": "classical",
+        "name": "LONG.et",
+        "vote": "SHORT",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "LONG.lgb",
+        "vote": "SHORT",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "LONG.mlp",
+        "vote": "SHORT",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "LONG.hgb",
+        "vote": "SHORT",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "LONG.cat",
+        "vote": "SHORT",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "LONG.rf",
+        "vote": "SHORT",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "LONG.lr",
+        "vote": "SHORT",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "LONG.xgb",
+        "vote": "SHORT",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "LONG.knn",
+        "vote": "LONG",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "SHORT.et",
+        "vote": "LONG",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "SHORT.knn",
+        "vote": "SHORT",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "SHORT.mlp",
+        "vote": "LONG",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "SHORT.xgb",
+        "vote": "LONG",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "SHORT.hgb",
+        "vote": "LONG",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "SHORT.rf",
+        "vote": "LONG",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "SHORT.cat",
+        "vote": "LONG",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "SHORT.lr",
+        "vote": "LONG",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "SHORT.lgb",
+        "vote": "LONG",
+        "weight": 1.0
+      },
+      {
+        "group": "committee_stack",
+        "name": "stack_edge_over_baseline",
+        "vote": "LONG",
+        "weight": 2.0
+      }
+    ],
+    "summary": "ALL-MODEL MAJORITY: LONG (11/20 weighted votes, 55.0%)"
+  },
+  "true_fast_inference": {
+    "used": true,
+    "method": "full_bundle",
+    "reason": "full saved committee bundles + cached DL inference",
+    "count": 85551,
+    "long_models": [
+      "et",
+      "lgb",
+      "mlp",
+      "hgb",
+      "cat",
+      "rf",
+      "lr",
+      "xgb",
+      "knn"
+    ],
+    "short_models": [
+      "et",
+      "knn",
+      "mlp",
+      "xgb",
+      "hgb",
+      "rf",
+      "cat",
+      "lr",
+      "lgb"
+    ],
+    "long_dl_loaded": [],
+    "short_dl_loaded": []
+  },
+  "potential_setup_levels": [
+    {
+      "kind": "demand-zone-retest",
+      "direction": "LONG",
+      "trigger_price": 83417.36,
+      "zone_low": 83328.01,
+      "zone_high": 83417.36,
+      "invalid_below_above": 83244.49054,
+      "distance_pct_from_now": -0.122,
+      "reason": "Possible buy setup if price returns to fresh demand and shows rejection.",
+      "message": "Watch LONG: possible demand-zone-retest setup near $83417.360000. Current price $83519.460000; distance -0.12%"
+    },
+    {
+      "kind": "rejection/resistance-hold",
+      "direction": "SHORT",
+      "trigger_price": 83652.20054,
+      "zone_low": 83568.68108,
+      "zone_high": 83902.75892,
+      "invalid_below_above": 83902.75892,
+      "distance_pct_from_now": 0.159,
+      "reason": "Possible sell setup if price taps resistance/supply and rejects.",
+      "message": "Watch SHORT: possible rejection/resistance-hold setup near $83652.200540. Current price $83519.460000; distance +0.16%"
+    }
+  ],
+  "recent_setup_alerts": [],
+  "market_mode": "SMALL_MODE",
+  "small_setup_advice": {
+    "available": true,
+    "direction": "SHORT",
+    "status": "MICRO_ONLY",
+    "reason": "No full setup. Models only suggest a small next-3/4-candle move.",
+    "max_expected_move_pct": -0.1512,
+    "forecast": {
+      "available": true,
+      "horizon_candles": 4,
+      "path": "BOUNCE_THEN_DOWN",
+      "summary": "Small mode: possible small bounce (+0.63%) before downside attempt (-0.15% by candle 4).",
+      "final_pct_from_now": -0.1512,
+      "max_up_pct": 0.6307,
+      "max_down_pct": -0.933,
+      "aligns_with_setup": false,
+      "steps": [
+        {
+          "candle": 1,
+          "close": 83428.671,
+          "high": 83802.2064,
+          "low": 83055.1355,
+          "pct_from_now": -0.1087,
+          "pct_from_prev": -0.1087,
+          "direction": "DOWN"
+        },
+        {
+          "candle": 2,
+          "close": 83393.6203,
+          "high": 83882.8415,
+          "low": 82904.399,
+          "pct_from_now": -0.1507,
+          "pct_from_prev": -0.042,
+          "direction": "DOWN"
+        },
+        {
+          "candle": 3,
+          "close": 83386.4387,
+          "high": 83964.4772,
+          "low": 82808.4002,
+          "pct_from_now": -0.1593,
+          "pct_from_prev": -0.0086,
+          "direction": "FLAT"
+        },
+        {
+          "candle": 4,
+          "close": 83393.1917,
+          "high": 84046.1806,
+          "low": 82740.2028,
+          "pct_from_now": -0.1512,
+          "pct_from_prev": 0.0081,
+          "direction": "FLAT"
+        }
+      ],
+      "source": "algo_forecast_fallback",
+      "note": "Micro forecast only; not a separate trade signal. Use it to understand possible path to TP/SL.",
+      "pred_next_20_meta": {
+        "source": "predict_next_20_candles",
+        "error": "name '_active_feats' is not defined"
+      }
+    },
+    "warning": "Micro setup only \u2014 not a full TP/SL trade. Use smaller risk or wait for full setup."
+  },
+  "small_mode_forecast": {
+    "available": true,
+    "horizon_candles": 4,
+    "path": "BOUNCE_THEN_DOWN",
+    "summary": "Small mode: possible small bounce (+0.63%) before downside attempt (-0.15% by candle 4).",
+    "final_pct_from_now": -0.1512,
+    "max_up_pct": 0.6307,
+    "max_down_pct": -0.933,
+    "aligns_with_setup": false,
+    "steps": [
+      {
+        "candle": 1,
+        "close": 83428.671,
+        "high": 83802.2064,
+        "low": 83055.1355,
+        "pct_from_now": -0.1087,
+        "pct_from_prev": -0.1087,
+        "direction": "DOWN"
+      },
+      {
+        "candle": 2,
+        "close": 83393.6203,
+        "high": 83882.8415,
+        "low": 82904.399,
+        "pct_from_now": -0.1507,
+        "pct_from_prev": -0.042,
+        "direction": "DOWN"
+      },
+      {
+        "candle": 3,
+        "close": 83386.4387,
+        "high": 83964.4772,
+        "low": 82808.4002,
+        "pct_from_now": -0.1593,
+        "pct_from_prev": -0.0086,
+        "direction": "FLAT"
+      },
+      {
+        "candle": 4,
+        "close": 83393.1917,
+        "high": 84046.1806,
+        "low": 82740.2028,
+        "pct_from_now": -0.1512,
+        "pct_from_prev": 0.0081,
+        "direction": "FLAT"
+      }
+    ],
+    "source": "algo_forecast_fallback",
+    "note": "Micro forecast only; not a separate trade signal. Use it to understand possible path to TP/SL.",
+    "pred_next_20_meta": {
+      "source": "predict_next_20_candles",
+      "error": "name '_active_feats' is not defined"
+    }
+  },
+  "model_market_outlook": {
+    "available": true,
+    "note": "Setup-agnostic model outlook. This is NOT a trade setup and does not override risk guards.",
+    "overall_direction": "LONG",
+    "long_weight": 6.9364,
+    "short_weight": 6.5188,
+    "neutral_weight": 0.0095,
+    "direction_edge": 0.031,
+    "long_share": 0.5152,
+    "short_share": 0.4841,
+    "neutral_share": 0.0007,
+    "horizon_estimates": {},
+    "votes": [
+      {
+        "source": "LONG_committee",
+        "model": "et",
+        "direction": "SHORT",
+        "confidence": 0.7101,
+        "note": "LONG model rejects/upside weak"
+      },
+      {
+        "source": "LONG_committee",
+        "model": "lgb",
+        "direction": "SHORT",
+        "confidence": 0.7239,
+        "note": "LONG model rejects/upside weak"
+      },
+      {
+        "source": "LONG_committee",
+        "model": "mlp",
+        "direction": "SHORT",
+        "confidence": 0.5715,
+        "note": "LONG model rejects/upside weak"
+      },
+      {
+        "source": "LONG_committee",
+        "model": "hgb",
+        "direction": "SHORT",
+        "confidence": 0.5542,
+        "note": "LONG model rejects/upside weak"
+      },
+      {
+        "source": "LONG_committee",
+        "model": "cat",
+        "direction": "SHORT",
+        "confidence": 0.6442,
+        "note": "LONG model rejects/upside weak"
+      },
+      {
+        "source": "LONG_committee",
+        "model": "rf",
+        "direction": "SHORT",
+        "confidence": 0.6919,
+        "note": "LONG model rejects/upside weak"
+      },
+      {
+        "source": "LONG_committee",
+        "model": "lr",
+        "direction": "SHORT",
+        "confidence": 0.6182,
+        "note": "LONG model rejects/upside weak"
+      },
+      {
+        "source": "LONG_committee",
+        "model": "xgb",
+        "direction": "SHORT",
+        "confidence": 0.6109,
+        "note": "LONG model rejects/upside weak"
+      },
+      {
+        "source": "LONG_committee",
+        "model": "knn",
+        "direction": "LONG",
+        "confidence": 0.6526,
+        "note": "LONG model says setup wins"
+      },
+      {
+        "source": "SHORT_committee",
+        "model": "et",
+        "direction": "LONG",
+        "confidence": 0.6385,
+        "note": "SHORT model rejects/downside weak"
+      },
+      {
+        "source": "SHORT_committee",
+        "model": "knn",
+        "direction": "SHORT",
+        "confidence": 0.5494,
+        "note": "SHORT model says setup wins"
+      },
+      {
+        "source": "SHORT_committee",
+        "model": "mlp",
+        "direction": "LONG",
+        "confidence": 0.6158,
+        "note": "SHORT model rejects/downside weak"
+      },
+      {
+        "source": "SHORT_committee",
+        "model": "xgb",
+        "direction": "LONG",
+        "confidence": 0.6198,
+        "note": "SHORT model rejects/downside weak"
+      },
+      {
+        "source": "SHORT_committee",
+        "model": "hgb",
+        "direction": "LONG",
+        "confidence": 1.0,
+        "note": "SHORT model rejects/downside weak"
+      },
+      {
+        "source": "SHORT_committee",
+        "model": "rf",
+        "direction": "LONG",
+        "confidence": 0.6295,
+        "note": "SHORT model rejects/downside weak"
+      },
+      {
+        "source": "SHORT_committee",
+        "model": "cat",
+        "direction": "LONG",
+        "confidence": 0.6423,
+        "note": "SHORT model rejects/downside weak"
+      },
+      {
+        "source": "SHORT_committee",
+        "model": "lr",
+        "direction": "LONG",
+        "confidence": 0.6503,
+        "note": "SHORT model rejects/downside weak"
+      },
+      {
+        "source": "SHORT_committee",
+        "model": "lgb",
+        "direction": "LONG",
+        "confidence": 0.6205,
+        "note": "SHORT model rejects/downside weak"
+      },
+      {
+        "source": "committee_stack",
+        "model": "LONG_stack",
+        "direction": "SHORT",
+        "confidence": 0.1884,
+        "note": "P_long=40.58%"
+      },
+      {
+        "source": "committee_stack",
+        "model": "SHORT_stack",
+        "direction": "LONG",
+        "confidence": 0.3171,
+        "note": "P_short=34.14%"
+      },
+      {
+        "source": "all_model_majority",
+        "model": "majority",
+        "direction": "LONG",
+        "confidence": 0.55,
+        "note": "ALL-MODEL MAJORITY: LONG (11/20 weighted votes, 55.0%)"
+      },
+      {
+        "source": "forecast",
+        "model": "next_candle",
+        "direction": "SHORT",
+        "confidence": 0.5049,
+        "note": "BEARISH DOWN"
+      },
+      {
+        "source": "forecast",
+        "model": "algo_10_bar",
+        "direction": "NEUTRAL",
+        "confidence": 0.0095,
+        "note": "10-bar move -0.019%"
+      },
+      {
+        "source": "forecast",
+        "model": "small_mode_4_candle",
+        "direction": "SHORT",
+        "confidence": 0.1512,
+        "note": "Small mode: possible small bounce (+0.63%) before downside attempt (-0.15% by candle 4)."
+      }
+    ],
+    "summary": "Models lean LONG (LONG weight 6.94, SHORT weight 6.52, edge 3.1%)"
+  },
+  "regime_profile": {
+    "regime": "RANGING",
+    "atr_pct": 0.3745,
+    "risk_mode": "strict",
+    "threshold_add": 4.0,
+    "reason": "ranging/unclear regime"
+  },
+  "data_validation": {
+    "ok": true,
+    "warnings": [],
+    "errors": [],
+    "repairs": [],
+    "rows_in": 8000,
+    "rows_out": 8000,
+    "tf_label": "1h",
+    "median_interval_sec": 3600.0
+  },
+  "saved_at": "2026-10-14T05:51:03.741407Z",
+  "_saved_at": "2026-10-14T05:51:03.741427Z"
+}
