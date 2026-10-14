@@ -1,12 +1,13 @@
 {
   "classical": {
     "hgb": {
-      "wf": 0.5392494829114547,
-      "needs_sc": false,
+      "wf_acc": 0.5392,
+      "brier": 0.23793882246433481,
+      "logloss": 0.6687488041959738,
       "size_kb": 225.0,
       "saved_to": "storage",
       "model_version": "v9.5_no_leakage_honest_calibration",
-      "saved_at": 1791956035.5727808
+      "saved_at": 1791956285.2759788
     },
     "rf": {
       "wf": 0.5744853737811484,
@@ -79,5 +80,5 @@
   },
   "dl": {},
   "nn": {},
-  "_saved_at": "2026-10-14T05:37:58.725300Z"
+  "_saved_at": "2026-10-14T05:38:05.276012Z"
 }
