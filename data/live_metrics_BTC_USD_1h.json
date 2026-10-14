@@ -1,0 +1,20 @@
+{
+  "saved_at": "2026-10-14T05:50:57.268922Z",
+  "namespace": "whitedemon",
+  "trade_allowed": 0,
+  "setup_score": 46.7,
+  "entry_precision_score": 19.1,
+  "committee_probability": 0.4058,
+  "committee_edge": 0.0644,
+  "model_agreement": 0.1111,
+  "all_model_majority_share": 0.55,
+  "all_model_majority_edge": 0.1,
+  "data_validation_ok": 1,
+  "data_validation_warnings": 0,
+  "regime_atr_pct": 0.3745,
+  "risk_pct": 0.7534239158155468,
+  "analog_win_rate": 0.3953,
+  "feature_drift_psi_mean": 1.33774,
+  "feature_drift_psi_max": 27.63102,
+  "_saved_at": "2026-10-14T05:51:05.289908Z"
+}
