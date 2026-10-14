@@ -1,0 +1,645 @@
+{
+  "symbol": "BTC-USD",
+  "tf_label": "1h",
+  "price": 83519.46,
+  "direction": "LONG",
+  "verdict": "NO_TRADE",
+  "verdict_text": "NO TRADE / BLOCKED \u2014 best setup LONG",
+  "confluence": 0.467,
+  "win_prob": 0.4058,
+  "chosen_precision_score": 19.1,
+  "selected_committee_probability": 0.4058,
+  "selected_edge": 0.0644,
+  "all_model_majority": {
+    "direction": "LONG",
+    "long_votes": 11.0,
+    "short_votes": 9.0,
+    "total_votes": 20.0,
+    "chosen_votes": 11.0,
+    "other_votes": 9.0,
+    "long_share": 0.55,
+    "short_share": 0.45,
+    "chosen_share": 0.55,
+    "edge_share": 0.1,
+    "majority_strong": true,
+    "committee_direction": "LONG",
+    "committee_edge": 0.0676,
+    "long_edge_over_baseline": 0.0346,
+    "short_edge_over_baseline": -0.0329,
+    "long_baseline": 0.3712,
+    "short_baseline": 0.3744,
+    "committee_strong": true,
+    "details": [
+      {
+        "group": "classical",
+        "name": "LONG.et",
+        "vote": "SHORT",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "LONG.lgb",
+        "vote": "SHORT",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "LONG.mlp",
+        "vote": "SHORT",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "LONG.hgb",
+        "vote": "SHORT",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "LONG.cat",
+        "vote": "SHORT",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "LONG.rf",
+        "vote": "SHORT",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "LONG.lr",
+        "vote": "SHORT",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "LONG.xgb",
+        "vote": "SHORT",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "LONG.knn",
+        "vote": "LONG",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "SHORT.et",
+        "vote": "LONG",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "SHORT.knn",
+        "vote": "SHORT",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "SHORT.mlp",
+        "vote": "LONG",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "SHORT.xgb",
+        "vote": "LONG",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "SHORT.hgb",
+        "vote": "LONG",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "SHORT.rf",
+        "vote": "LONG",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "SHORT.cat",
+        "vote": "LONG",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "SHORT.lr",
+        "vote": "LONG",
+        "weight": 1.0
+      },
+      {
+        "group": "classical",
+        "name": "SHORT.lgb",
+        "vote": "LONG",
+        "weight": 1.0
+      },
+      {
+        "group": "committee_stack",
+        "name": "stack_edge_over_baseline",
+        "vote": "LONG",
+        "weight": 2.0
+      }
+    ],
+    "summary": "ALL-MODEL MAJORITY: LONG (11/20 weighted votes, 55.0%)"
+  },
+  "model_vote_summary": {
+    "direction": "LONG",
+    "classical_support": 1,
+    "classical_total": 9,
+    "dl_support": 0,
+    "dl_total": 0,
+    "total_support": 1,
+    "total_models": 9,
+    "agreement": 0.1111,
+    "committee_win_probability": 0.4058,
+    "summary": "1/9 models support LONG (classic 1/9, DL 0/0)"
+  },
+  "best_setup_gate": {
+    "mode": "elite",
+    "score": 19.1,
+    "threshold": 70.0,
+    "passed": false
+  },
+  "why_no_alert": {
+    "status": "BLOCKED_TOO_LOW",
+    "warnings": [
+      "RR 4.95 > 4.50 (may be unrealistic)",
+      "setup score 46.7 < 58.0",
+      "committee probability 40.6% < 55.5%",
+      "analog pattern win-rate 39.5% < 58.0%",
+      "feature drift extreme: PSI mean=1.338, max=27.631",
+      "model agreement 11.1% < 53.0%",
+      "all-model majority weak 55.0% < 58.0%",
+      "guard/daily_loss_killswitch: equity not reported \u2014 fail-closed",
+      "guard/freshness: Stale data: 3003s old > 120s",
+      "guard/confidence: Confidence 46.7 < 62 \u2013 BLOCKED",
+      "entry precision score 19.1 < 61.0"
+    ],
+    "setup_score": 46.7,
+    "entry_precision_score": 19.1,
+    "best_setup_gate": {
+      "mode": "elite",
+      "score": 19.1,
+      "threshold": 70.0,
+      "passed": false
+    }
+  },
+  "true_fast_inference": {
+    "used": true,
+    "method": "full_bundle",
+    "reason": "full saved committee bundles + cached DL inference",
+    "count": 85551,
+    "long_models": [
+      "et",
+      "lgb",
+      "mlp",
+      "hgb",
+      "cat",
+      "rf",
+      "lr",
+      "xgb",
+      "knn"
+    ],
+    "short_models": [
+      "et",
+      "knn",
+      "mlp",
+      "xgb",
+      "hgb",
+      "rf",
+      "cat",
+      "lr",
+      "lgb"
+    ],
+    "long_dl_loaded": [],
+    "short_dl_loaded": []
+  },
+  "setup": {
+    "direction": "LONG",
+    "entry": 83519.46,
+    "entry_zone_low": 83441.256607,
+    "entry_zone_high": 83550.741357,
+    "sl": 82890.204414,
+    "tp1": 84528.98,
+    "tp2": 85318.0,
+    "tp3": 86130.45,
+    "rr1": 1.6,
+    "rr2": 2.86,
+    "rr3": 4.15,
+    "avg_rr_partial_close": 4.95,
+    "risk": 629.255586,
+    "risk_pct": 0.7534,
+    "round_trip_R": 0.2639,
+    "quality": "HIGH",
+    "valid": true,
+    "fallback_used": false,
+    "reason": "Valid 3.2:1 R/R | TP3=8.2:1 | avg_partial=5.0:1 | SL \u2265 1\u00d7ATR away",
+    "partial_close_plan": "50% @ TP1 \u00b7 30% @ TP2 \u00b7 20% @ TP3 (trailing)",
+    "invalidation": "If price closes beyond $83,203.017985 (the SL), the LONG thesis is invalidated. Also invalidated if structure shifts: a clean opposite-side break of structure or close beyond the entry zone with strong volume.",
+    "atr_used": 312.813571,
+    "sl_dist_atr": 2.01,
+    "tp1_dist_atr": 3.23,
+    "original_sl": 83203.017985,
+    "smart_sl_candidates": {
+      "original_struct": 83203.017985,
+      "atr_buffer": 82890.204414,
+      "wick_buffer": 82887.067585,
+      "vp_low_node": 82353.794443
+    },
+    "smart_sl_chosen": "MEDIAN_SAFE",
+    "smart_sl_aggressiveness": "balanced",
+    "rr_1": 1.6,
+    "rr_2": 2.86,
+    "rr_3": 4.15,
+    "smart_sl_reason": "Smart-SL widened from 83203.017985 \u2192 82890.204414 (2.01\u00d7 ATR) \u00b7 chosen=atr_buffer \u00b7 signals=['original_struct', 'atr_buffer', 'wick_buffer', 'vp_low_node']"
+  },
+  "tp_sl_prob": {
+    "tp1_prob": 62.3,
+    "tp2_prob": 38.1,
+    "sl_prob": 73.5,
+    "sample_size": 775
+  },
+  "market_mode": "SMALL_MODE",
+  "small_setup_advice": {
+    "available": true,
+    "direction": "SHORT",
+    "status": "MICRO_ONLY",
+    "reason": "No full setup. Models only suggest a small next-3/4-candle move.",
+    "max_expected_move_pct": -0.1512,
+    "forecast": {
+      "available": true,
+      "horizon_candles": 4,
+      "path": "BOUNCE_THEN_DOWN",
+      "summary": "Small mode: possible small bounce (+0.63%) before downside attempt (-0.15% by candle 4).",
+      "final_pct_from_now": -0.1512,
+      "max_up_pct": 0.6307,
+      "max_down_pct": -0.933,
+      "aligns_with_setup": false,
+      "steps": [
+        {
+          "candle": 1,
+          "close": 83428.671,
+          "high": 83802.2064,
+          "low": 83055.1355,
+          "pct_from_now": -0.1087,
+          "pct_from_prev": -0.1087,
+          "direction": "DOWN"
+        },
+        {
+          "candle": 2,
+          "close": 83393.6203,
+          "high": 83882.8415,
+          "low": 82904.399,
+          "pct_from_now": -0.1507,
+          "pct_from_prev": -0.042,
+          "direction": "DOWN"
+        },
+        {
+          "candle": 3,
+          "close": 83386.4387,
+          "high": 83964.4772,
+          "low": 82808.4002,
+          "pct_from_now": -0.1593,
+          "pct_from_prev": -0.0086,
+          "direction": "FLAT"
+        },
+        {
+          "candle": 4,
+          "close": 83393.1917,
+          "high": 84046.1806,
+          "low": 82740.2028,
+          "pct_from_now": -0.1512,
+          "pct_from_prev": 0.0081,
+          "direction": "FLAT"
+        }
+      ],
+      "source": "algo_forecast_fallback",
+      "note": "Micro forecast only; not a separate trade signal. Use it to understand possible path to TP/SL.",
+      "pred_next_20_meta": {
+        "source": "predict_next_20_candles",
+        "error": "name '_active_feats' is not defined"
+      }
+    },
+    "warning": "Micro setup only \u2014 not a full TP/SL trade. Use smaller risk or wait for full setup."
+  },
+  "small_mode_forecast": {
+    "available": true,
+    "horizon_candles": 4,
+    "path": "BOUNCE_THEN_DOWN",
+    "summary": "Small mode: possible small bounce (+0.63%) before downside attempt (-0.15% by candle 4).",
+    "final_pct_from_now": -0.1512,
+    "max_up_pct": 0.6307,
+    "max_down_pct": -0.933,
+    "aligns_with_setup": false,
+    "steps": [
+      {
+        "candle": 1,
+        "close": 83428.671,
+        "high": 83802.2064,
+        "low": 83055.1355,
+        "pct_from_now": -0.1087,
+        "pct_from_prev": -0.1087,
+        "direction": "DOWN"
+      },
+      {
+        "candle": 2,
+        "close": 83393.6203,
+        "high": 83882.8415,
+        "low": 82904.399,
+        "pct_from_now": -0.1507,
+        "pct_from_prev": -0.042,
+        "direction": "DOWN"
+      },
+      {
+        "candle": 3,
+        "close": 83386.4387,
+        "high": 83964.4772,
+        "low": 82808.4002,
+        "pct_from_now": -0.1593,
+        "pct_from_prev": -0.0086,
+        "direction": "FLAT"
+      },
+      {
+        "candle": 4,
+        "close": 83393.1917,
+        "high": 84046.1806,
+        "low": 82740.2028,
+        "pct_from_now": -0.1512,
+        "pct_from_prev": 0.0081,
+        "direction": "FLAT"
+      }
+    ],
+    "source": "algo_forecast_fallback",
+    "note": "Micro forecast only; not a separate trade signal. Use it to understand possible path to TP/SL.",
+    "pred_next_20_meta": {
+      "source": "predict_next_20_candles",
+      "error": "name '_active_feats' is not defined"
+    }
+  },
+  "model_market_outlook": {
+    "available": true,
+    "note": "Setup-agnostic model outlook. This is NOT a trade setup and does not override risk guards.",
+    "overall_direction": "LONG",
+    "long_weight": 6.9364,
+    "short_weight": 6.5188,
+    "neutral_weight": 0.0095,
+    "direction_edge": 0.031,
+    "long_share": 0.5152,
+    "short_share": 0.4841,
+    "neutral_share": 0.0007,
+    "horizon_estimates": {},
+    "votes": [
+      {
+        "source": "LONG_committee",
+        "model": "et",
+        "direction": "SHORT",
+        "confidence": 0.7101,
+        "note": "LONG model rejects/upside weak"
+      },
+      {
+        "source": "LONG_committee",
+        "model": "lgb",
+        "direction": "SHORT",
+        "confidence": 0.7239,
+        "note": "LONG model rejects/upside weak"
+      },
+      {
+        "source": "LONG_committee",
+        "model": "mlp",
+        "direction": "SHORT",
+        "confidence": 0.5715,
+        "note": "LONG model rejects/upside weak"
+      },
+      {
+        "source": "LONG_committee",
+        "model": "hgb",
+        "direction": "SHORT",
+        "confidence": 0.5542,
+        "note": "LONG model rejects/upside weak"
+      },
+      {
+        "source": "LONG_committee",
+        "model": "cat",
+        "direction": "SHORT",
+        "confidence": 0.6442,
+        "note": "LONG model rejects/upside weak"
+      },
+      {
+        "source": "LONG_committee",
+        "model": "rf",
+        "direction": "SHORT",
+        "confidence": 0.6919,
+        "note": "LONG model rejects/upside weak"
+      },
+      {
+        "source": "LONG_committee",
+        "model": "lr",
+        "direction": "SHORT",
+        "confidence": 0.6182,
+        "note": "LONG model rejects/upside weak"
+      },
+      {
+        "source": "LONG_committee",
+        "model": "xgb",
+        "direction": "SHORT",
+        "confidence": 0.6109,
+        "note": "LONG model rejects/upside weak"
+      },
+      {
+        "source": "LONG_committee",
+        "model": "knn",
+        "direction": "LONG",
+        "confidence": 0.6526,
+        "note": "LONG model says setup wins"
+      },
+      {
+        "source": "SHORT_committee",
+        "model": "et",
+        "direction": "LONG",
+        "confidence": 0.6385,
+        "note": "SHORT model rejects/downside weak"
+      },
+      {
+        "source": "SHORT_committee",
+        "model": "knn",
+        "direction": "SHORT",
+        "confidence": 0.5494,
+        "note": "SHORT model says setup wins"
+      },
+      {
+        "source": "SHORT_committee",
+        "model": "mlp",
+        "direction": "LONG",
+        "confidence": 0.6158,
+        "note": "SHORT model rejects/downside weak"
+      },
+      {
+        "source": "SHORT_committee",
+        "model": "xgb",
+        "direction": "LONG",
+        "confidence": 0.6198,
+        "note": "SHORT model rejects/downside weak"
+      },
+      {
+        "source": "SHORT_committee",
+        "model": "hgb",
+        "direction": "LONG",
+        "confidence": 1.0,
+        "note": "SHORT model rejects/downside weak"
+      },
+      {
+        "source": "SHORT_committee",
+        "model": "rf",
+        "direction": "LONG",
+        "confidence": 0.6295,
+        "note": "SHORT model rejects/downside weak"
+      },
+      {
+        "source": "SHORT_committee",
+        "model": "cat",
+        "direction": "LONG",
+        "confidence": 0.6423,
+        "note": "SHORT model rejects/downside weak"
+      },
+      {
+        "source": "SHORT_committee",
+        "model": "lr",
+        "direction": "LONG",
+        "confidence": 0.6503,
+        "note": "SHORT model rejects/downside weak"
+      },
+      {
+        "source": "SHORT_committee",
+        "model": "lgb",
+        "direction": "LONG",
+        "confidence": 0.6205,
+        "note": "SHORT model rejects/downside weak"
+      },
+      {
+        "source": "committee_stack",
+        "model": "LONG_stack",
+        "direction": "SHORT",
+        "confidence": 0.1884,
+        "note": "P_long=40.58%"
+      },
+      {
+        "source": "committee_stack",
+        "model": "SHORT_stack",
+        "direction": "LONG",
+        "confidence": 0.3171,
+        "note": "P_short=34.14%"
+      },
+      {
+        "source": "all_model_majority",
+        "model": "majority",
+        "direction": "LONG",
+        "confidence": 0.55,
+        "note": "ALL-MODEL MAJORITY: LONG (11/20 weighted votes, 55.0%)"
+      },
+      {
+        "source": "forecast",
+        "model": "next_candle",
+        "direction": "SHORT",
+        "confidence": 0.5049,
+        "note": "BEARISH DOWN"
+      },
+      {
+        "source": "forecast",
+        "model": "algo_10_bar",
+        "direction": "NEUTRAL",
+        "confidence": 0.0095,
+        "note": "10-bar move -0.019%"
+      },
+      {
+        "source": "forecast",
+        "model": "small_mode_4_candle",
+        "direction": "SHORT",
+        "confidence": 0.1512,
+        "note": "Small mode: possible small bounce (+0.63%) before downside attempt (-0.15% by candle 4)."
+      }
+    ],
+    "summary": "Models lean LONG (LONG weight 6.94, SHORT weight 6.52, edge 3.1%)"
+  },
+  "funding": {
+    "available": true,
+    "funding_8ex_avg": 2.450731519244e-05,
+    "funding_8ex_skew": 1.9857990982928302e-05,
+    "funding_max_ex": "bybit",
+    "funding_max_rate": 4.575e-05,
+    "oi_change_24h": 0.0,
+    "n_exchanges": 5,
+    "funding_score": 0.462987,
+    "funding_bias": "NEUTRAL",
+    "funding_pressure": 0.049015,
+    "funding_model": "CoolerV1"
+  },
+  "monte_carlo": {
+    "available": true,
+    "expectancy_mean": 0.029639000000000006,
+    "expectancy_p5": -0.16799999999999998,
+    "expectancy_p95": 0.22200000000000003,
+    "final_R_mean": 2.9639,
+    "final_R_p5": -16.800000000000004,
+    "final_R_p95": 22.20000000000003,
+    "max_dd_R_p5": -24.400000000000006,
+    "max_dd_R_p95": -6.4,
+    "n_sims": 500,
+    "n_trades_per_sim": 100,
+    "n_samples_used": 200,
+    "robust": false,
+    "n_trades": 80,
+    "fail_rate": 0.36,
+    "survival_score": 0.64,
+    "median_total_R": 3.5986,
+    "p05_total_R": -15.9622,
+    "median_max_drawdown_R": -5.0,
+    "reject": true,
+    "fail_threshold": 0.3,
+    "source": "synthetic"
+  },
+  "vetoes": [
+    "RR 4.95 > 4.50 (may be unrealistic)",
+    "setup score 46.7 < 58.0",
+    "committee probability 40.6% < 55.5%",
+    "analog pattern win-rate 39.5% < 58.0%",
+    "feature drift extreme: PSI mean=1.338, max=27.631",
+    "model agreement 11.1% < 53.0%",
+    "all-model majority weak 55.0% < 58.0%",
+    "guard/daily_loss_killswitch: equity not reported \u2014 fail-closed",
+    "guard/freshness: Stale data: 3003s old > 120s",
+    "guard/confidence: Confidence 46.7 < 62 \u2013 BLOCKED",
+    "entry precision score 19.1 < 61.0",
+    "Ensemble disagreement: only 11% of models support LONG",
+    "Strategy historical expectancy is NOT robust (MC 5th pct = -0.168R)",
+    "Expected value too low: EV = +0.174R (win_prob 45.2% \u00d7 RR 1:1.60) -- not +EV",
+    "Calibrated win prob 45.2% below 58% minimum"
+  ],
+  "liquidity": {
+    "valentini_vli": 0.0,
+    "valentini_vld": 0.0,
+    "valentini_vls": 0.0,
+    "valentini_vmfi": 0.0,
+    "amihud_illiquidity": 0.0,
+    "kyles_lambda": 0.0,
+    "rolls_spread": 0.0,
+    "corwin_schultz_spread": 0.0,
+    "garman_klass_vol": 0.0
+  },
+  "microstructure": {
+    "valentini_vli": 0.0,
+    "valentini_vld": 0.0,
+    "valentini_vls": 0.0,
+    "valentini_vmfi": 0.0,
+    "amihud_illiquidity": 0.0,
+    "kyles_lambda": 0.0,
+    "rolls_spread": 0.0,
+    "corwin_schultz_spread": 0.0,
+    "garman_klass_vol": 0.0
+  },
+  "_saved_at": "2026-10-14T05:51:02.011162Z"
+}
