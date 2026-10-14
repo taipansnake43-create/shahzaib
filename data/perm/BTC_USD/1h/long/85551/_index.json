@@ -23,9 +23,17 @@
       "saved_to": "storage",
       "model_version": "v9.5_no_leakage_honest_calibration",
       "saved_at": 1791955195.361844
+    },
+    "lr": {
+      "wf": 0.46536737909977344,
+      "needs_sc": true,
+      "size_kb": 1.4,
+      "saved_to": "storage",
+      "model_version": "v9.5_no_leakage_honest_calibration",
+      "saved_at": 1791955201.958341
     }
   },
   "dl": {},
   "nn": {},
-  "_saved_at": "2026-10-14T05:19:55.361868Z"
+  "_saved_at": "2026-10-14T05:20:01.958367Z"
 }
