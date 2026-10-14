@@ -17,7 +17,15 @@
       "train_acc": 0.5,
       "model_version": "v9.5_no_leakage_honest_calibration",
       "saved_at": 1791955537.4645905
+    },
+    "sentiment_nn": {
+      "class": "SentimentNNWrapper",
+      "size_kb": 213.5,
+      "saved_to": "storage",
+      "train_acc": 0.5,
+      "model_version": "v9.5_no_leakage_honest_calibration",
+      "saved_at": 1791955628.0769522
     }
   },
-  "_saved_at": "2026-10-14T05:25:37.464622Z"
+  "_saved_at": "2026-10-14T05:27:08.076987Z"
 }
