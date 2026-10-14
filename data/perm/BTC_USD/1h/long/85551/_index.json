@@ -28,13 +28,13 @@
       "saved_at": 1791957630.276815
     },
     "lr": {
-      "wf_acc": 0.4654,
+      "wf_acc": 0.5,
       "brier": 0.2367834447456727,
       "logloss": 0.6663944476605279,
       "size_kb": 1.4,
       "saved_to": "storage",
       "model_version": "v9.5_no_leakage_honest_calibration",
-      "saved_at": 1791955403.1536908
+      "saved_at": 1791957684.9612935
     },
     "knn": {
       "wf_acc": 0.5,
@@ -84,5 +84,5 @@
   },
   "dl": {},
   "nn": {},
-  "_saved_at": "2026-10-14T06:01:21.132879Z"
+  "_saved_at": "2026-10-14T06:01:24.961318Z"
 }
