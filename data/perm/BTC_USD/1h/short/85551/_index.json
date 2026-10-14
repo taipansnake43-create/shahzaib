@@ -1,0 +1,15 @@
+{
+  "classical": {
+    "hgb": {
+      "wf": 0.5392494829114547,
+      "needs_sc": false,
+      "size_kb": 225.0,
+      "saved_to": "storage",
+      "model_version": "v9.5_no_leakage_honest_calibration",
+      "saved_at": 1791956035.5727808
+    }
+  },
+  "dl": {},
+  "nn": {},
+  "_saved_at": "2026-10-14T05:33:55.572837Z"
+}
