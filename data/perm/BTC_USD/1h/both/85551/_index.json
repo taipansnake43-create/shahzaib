@@ -1,0 +1,15 @@
+{
+  "classical": {},
+  "dl": {},
+  "nn": {
+    "price_reg": {
+      "class": "PriceRegressionEnsemble",
+      "size_kb": 711.6,
+      "saved_to": "storage",
+      "train_acc": 0.5031648170982327,
+      "model_version": "v9.5_no_leakage_honest_calibration",
+      "saved_at": 1791955517.5634468
+    }
+  },
+  "_saved_at": "2026-10-14T05:25:17.563492Z"
+}
