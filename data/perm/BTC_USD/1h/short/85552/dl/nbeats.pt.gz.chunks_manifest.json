@@ -1,0 +1,10 @@
+{
+  "chunked": true,
+  "key": "perm/BTC_USD/1h/short/85552/dl/nbeats.pt.gz",
+  "n_parts": 10,
+  "size_bytes": 80396798,
+  "sha256": "f043bedd6bb65b302ebe975813617c96a6b416cd06fbcd1565eb52a301cbf3b3",
+  "chunk_size": 8388608,
+  "model_cache_version": "v9.5_no_leakage_honest_calibration",
+  "_saved_at": "2026-10-14T07:56:58.299809Z"
+}
